@@ -12,6 +12,7 @@ import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import mongoSanitize from 'express-mongo-sanitize';
 import path from 'path';
+import cors from 'cors';
 //@ts-expect-error
 import xss from 'xss-clean';
 //@ts-expect-error
@@ -19,10 +20,17 @@ import hpp from 'hpp';
 
 const app = express();
 
-app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 // 1) Middlewares
+// Enable CORS
+app.use(
+    cors({
+        origin: 'http://localhost:5173',
+        credentials: true,
+    }),
+);
+
 //Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -33,8 +41,8 @@ app.use(
             ...helmet.contentSecurityPolicy.getDefaultDirectives(),
             'script-src': ["'self'", 'https://unpkg.com', 'https://*.stripe.com'],
             'default-src': ["'self'", 'https://*.stripe.com'],
-
             'img-src': ["'self'", 'data:', 'https://*.tile.openstreetmap.org'],
+            'connect-src': ["'self'", 'http://localhost:5173', 'http://localhost:3000'],
         },
     }),
 );
