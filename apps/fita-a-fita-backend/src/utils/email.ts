@@ -67,7 +67,7 @@ class Email {
     }
 
     async sendWelcome() {
-        await this.send('wellcome', 'Welcome to the Natours Family!');
+        await this.send('wellcome', 'Welcome to the Fita a Fita Family!');
     }
 
     async sendPasswordReset() {
