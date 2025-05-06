@@ -20,8 +20,6 @@ import hpp from 'hpp';
 
 const app = express();
 
-app.set('views', path.join(__dirname, 'views'));
-
 // 1) Middlewares
 // Enable CORS
 app.use(
@@ -30,9 +28,6 @@ app.use(
         credentials: true,
     }),
 );
-
-//Serving static files
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Set security HTTP headers
 app.use(

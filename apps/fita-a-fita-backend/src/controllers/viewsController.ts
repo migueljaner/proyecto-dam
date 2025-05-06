@@ -80,7 +80,7 @@ export const getAccount = (req: Request, res: Response) => {
     const user = req.user;
 
     res.status(200).render('useracc', {
-        title: 'Natours | Your account',
+        title: 'Fita a Fita | Your account',
         user,
     });
 };

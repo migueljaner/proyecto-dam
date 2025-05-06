@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 import User from '../models/userModel';
 import AppError from '../utils/appError';
 import catchAsync from '../utils/catchAsync';
@@ -8,9 +8,13 @@ import Email from '../utils/email';
 import crypto from 'crypto';
 
 const signToken = (id: string) =>
-    jwt.sign({ id }, process.env.JWT_SECRET!, {
-        expiresIn: process.env.JWT_EXPIRES_IN,
-    });
+    jwt.sign(
+        { id },
+        process.env.JWT_SECRET as string,
+        {
+            expiresIn: process.env.JWT_EXPIRES_IN,
+        } as SignOptions,
+    );
 
 const createSendToken = (user: any, statusCode: number, res: Response) => {
     const token = signToken(user._id.toString());

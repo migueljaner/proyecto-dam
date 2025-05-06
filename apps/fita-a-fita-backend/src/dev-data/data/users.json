@@ -2,7 +2,7 @@
     {
         "_id": "5c8a1d5b0190b214360dc057",
         "name": "Jonas Schmedtmann",
-        "email": "admin@natours.io",
+        "email": "admin@fita-a-fita.io",
         "role": "admin",
         "active": true,
         "photo": "user-1.jpg",
@@ -11,7 +11,7 @@
     {
         "_id": "5c8a1dfa2f8fb814b56fa181",
         "name": "Lourdes Browning",
-        "email": "loulou@example.com",
+        "email": "loulou@fita-a-fita.io",
         "role": "user",
         "active": true,
         "photo": "user-2.jpg",
@@ -20,7 +20,7 @@
     {
         "_id": "5c8a1e1a2f8fb814b56fa182",
         "name": "Sophie Louise Hart",
-        "email": "sophie@example.com",
+        "email": "sophie@fita-a-fita.io",
         "role": "user",
         "active": true,
         "photo": "user-3.jpg",
@@ -29,7 +29,7 @@
     {
         "_id": "5c8a1ec62f8fb814b56fa183",
         "name": "Ayla Cornell",
-        "email": "ayls@example.com",
+        "email": "ayls@fita-a-fita.io",
         "role": "user",
         "active": true,
         "photo": "user-4.jpg",
@@ -38,7 +38,7 @@
     {
         "_id": "5c8a1f292f8fb814b56fa184",
         "name": "Leo Gillespie",
-        "email": "leo@example.com",
+        "email": "leo@fita-a-fita.io",
         "role": "guide",
         "active": true,
         "photo": "user-5.jpg",
@@ -47,7 +47,7 @@
     {
         "_id": "5c8a1f4e2f8fb814b56fa185",
         "name": "Jennifer Hardy",
-        "email": "jennifer@example.com",
+        "email": "jennifer@fita-a-fita.io",
         "role": "guide",
         "active": true,
         "photo": "user-6.jpg",
