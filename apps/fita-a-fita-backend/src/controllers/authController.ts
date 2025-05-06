@@ -67,6 +67,10 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
     // 2) Check if the user exists && pass is correct
     const user = await User.findOne({ email }).select('+password');
 
+    console.log(password);
+    console.log(user?.password);
+    console.log(await user?.correctPassword(password, user?.password));
+
     if (!user || !(await user.correctPassword(password, user.password))) {
         return next(new AppError('Incorrect email or password', 401));
     }
@@ -178,23 +182,30 @@ export const forgotPassword = catchAsync(async (req: Request, res: Response, nex
 
     // 3) Send it to user's email
 
-    try {
-        const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`;
-        await new Email(user, resetURL).sendPasswordReset();
+    res.status(200).json({
+        status: 'success',
+        message: 'Token sent to email!',
+        token: resetToken,
+    });
 
-        res.status(200).json({
-            status: 'succes',
-            message: 'Token sent to email!',
-            //NOTE: This is not the best way to send the token, it should be just sent to the email, this is for development purposes
-            token: resetToken,
-        });
-    } catch (err) {
-        user.passwordResetToken = undefined;
-        user.passwordResetExpires = undefined;
+    // TODO: Send the token to the user's email
+    // try {
+    //     const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`;
+    //     await new Email(user, resetURL).sendPasswordReset();
 
-        await user.save({ validateBeforeSave: false });
-        return next(new AppError('There was an error sending the email. Try again later!', 500));
-    }
+    //     res.status(200).json({
+    //         status: 'succes',
+    //         message: 'Token sent to email!',
+    //         //NOTE: This is not the best way to send the token, it should be just sent to the email, this is for development purposes
+    //         token: resetToken,
+    //     });
+    // } catch (err) {
+    //     user.passwordResetToken = undefined;
+    //     user.passwordResetExpires = undefined;
+
+    //     await user.save({ validateBeforeSave: false });
+    //     return next(new AppError('There was an error sending the email. Try again later!', 500));
+    // }
 });
 
 export const resetPassword = catchAsync(async (req: Request, res: Response, next: NextFunction) => {

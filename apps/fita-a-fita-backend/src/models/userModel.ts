@@ -55,7 +55,7 @@ const userSchema = new Schema<IUserDoc, UserModel, IUserMethods>({
         type: String,
         required: [true, 'Please provide a password'],
         minlength: 8,
-        select: false, //Nunca se muestra
+        select: false, //NOTE: This is for security reasons, we don't want to show the password in the response
     },
     passwordConfirm: {
         type: String || undefined,
@@ -81,10 +81,13 @@ const userSchema = new Schema<IUserDoc, UserModel, IUserMethods>({
 });
 
 userSchema.pre('save', async function (next) {
-    //Only run this pass if pass was actually modified
+    // Skip middleware if skipMiddleware flag is set
+    if (this.$locals.skipMiddleware) return next();
 
+    //Only run this pass if pass was actually modified
     if (!this.isModified('password')) return next();
 
+    console.log('Saving user...');
     //Hash the password with cost of 12
     this.password = await bcrypt.hash(this.password, 12);
 
@@ -102,7 +105,7 @@ userSchema.pre('save', function (next) {
     next();
 });
 
-userSchema.pre(/^find/, function (next) {
+userSchema.pre(/^find/, function (this: mongoose.Query<any, any>, next) {
     //this points to the current query
     this.find({ active: { $ne: false } });
     next();
@@ -128,7 +131,7 @@ userSchema.methods.createPasswordResetToken = function () {
     const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex');
 
     this.passwordResetToken = hashedToken;
-    this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+    this.passwordResetExpires = new Date(Date.now() + 10 * 60 * 1000);
 
     return resetToken;
 };
@@ -139,7 +142,7 @@ userSchema.methods.createEmailConfirmToken = function () {
     const hashedToken = crypto.createHash('sha256').update(confirmToken).digest('hex');
 
     this.emailConfirmToken = hashedToken;
-    this.emailConfirmExpires = Date.now() + 10 * 60 * 1000;
+    this.emailConfirmExpires = new Date(Date.now() + 10 * 60 * 1000);
 
     return confirmToken;
 };

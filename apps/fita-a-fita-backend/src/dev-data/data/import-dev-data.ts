@@ -23,9 +23,15 @@ const importData = async () => {
     try {
         await Tour.create(tours);
         await Review.create(reviews);
-        await User.create(users, { validateBeforeSave: false });
+        // NOTE: This is for development purposes, we don't want to validate the users
+        const usersWithFlag = users.map((user: any) => ({
+            ...user,
+            $locals: { skipMiddleware: true },
+        }));
+        await User.create(usersWithFlag, {
+            validateBeforeSave: false,
+        });
 
-        console.log('Data succesfully loaded!');
         process.exit();
     } catch (err) {
         console.log(err);
