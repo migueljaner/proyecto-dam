@@ -81,13 +81,9 @@ const userSchema = new Schema<IUserDoc, UserModel, IUserMethods>({
 });
 
 userSchema.pre('save', async function (next) {
-    // Skip middleware if skipMiddleware flag is set
-    if (this.$locals.skipMiddleware) return next();
-
     //Only run this pass if pass was actually modified
     if (!this.isModified('password')) return next();
 
-    console.log('Saving user...');
     //Hash the password with cost of 12
     this.password = await bcrypt.hash(this.password, 12);
 

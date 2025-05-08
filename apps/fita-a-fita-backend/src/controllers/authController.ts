@@ -67,10 +67,6 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
     // 2) Check if the user exists && pass is correct
     const user = await User.findOne({ email }).select('+password');
 
-    console.log(password);
-    console.log(user?.password);
-    console.log(await user?.correctPassword(password, user?.password));
-
     if (!user || !(await user.correctPassword(password, user.password))) {
         return next(new AppError('Incorrect email or password', 401));
     }
