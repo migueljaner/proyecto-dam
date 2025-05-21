@@ -1,5 +1,6 @@
 ---
-const tours = await fetch('http://localhost:3000/api/v1/tours/').then((res) => res.json());
+// TODO: get tours from backend using fetch depending on the environment (local or docker)
+const tours = await fetch('http://fita-a-fita-backend:3000/api/v1/tours/').then((res) => res.json());
 
 interface Tour {
     name: string;

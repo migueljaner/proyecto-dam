@@ -7,10 +7,6 @@ services:
             MONGO_INITDB_ROOT_USERNAME: admin
             MONGO_INITDB_ROOT_PASSWORD: admin
             MONGO_INITDB_DATABASE: fita-a-fita
-            MONGO_HOST: localhost
-            MONGO_PORT: 27017
-            MONGO_USER: admin
-            MONGO_PASSWORD: admin
         ports:
             - 27017:27017
         volumes:
@@ -24,6 +20,9 @@ services:
             dockerfile: .docker/Dockerfile
         ports:
             - 4321:4321
+        networks:
+            - fita-a-fita-network
+
     fita-a-fita-backend:
         build:
             context: ./apps/fita-a-fita-backend
