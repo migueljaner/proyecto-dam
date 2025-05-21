@@ -7,19 +7,37 @@ services:
             MONGO_INITDB_ROOT_USERNAME: admin
             MONGO_INITDB_ROOT_PASSWORD: admin
             MONGO_INITDB_DATABASE: fita-a-fita
+            MONGO_HOST: localhost
+            MONGO_PORT: 27017
+            MONGO_USER: admin
+            MONGO_PASSWORD: admin
         ports:
             - 27017:27017
         volumes:
             - mongo-data:/data/db
-            - ./apps/fita-a-fita-backend/docker/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+            - ./apps/fita-a-fita-backend/.docker/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+        networks:
+            - fita-a-fita-network
     fita-a-fita-frontend:
         build:
             context: ./apps/fita-a-fita-frontend
             dockerfile: .docker/Dockerfile
         ports:
             - 4321:4321
+    fita-a-fita-backend:
+        build:
+            context: ./apps/fita-a-fita-backend
+            dockerfile: .docker/Dockerfile
+        ports:
+            - 3000:3000
+        networks:
+            - fita-a-fita-network
 
 volumes:
     mongo-data: # name of the volume
         driver: local # driver of the volume
         external: false # if the volume is external
+
+networks:
+    fita-a-fita-network:
+        driver: bridge

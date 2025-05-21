@@ -1,0 +1,49 @@
+<header class="relative h-[95vh] bg-gradient-to-br from-green-400 to-green-600 clip-path-polygon">
+    <nav class="flex justify-between items-center h-[9rem] w-full px-16">
+        <div class="flex items-center">
+            <a href="/" class="text-white text-lg font-medium hover:text-green-200 transition-colors">All tours</a>
+        </div>
+
+        <div class="absolute left-1/2 top-8 -translate-x-1/2">
+            <img src="/img/logo-white.png" alt="Fita a Fita logo" class="h-16" />
+        </div>
+
+        <div class="flex items-center gap-8">
+            {
+                user ? (
+                    <>
+                        <button class="text-white text-lg font-medium hover:text-green-200 transition-colors">
+                            Log out
+                        </button>
+                        <a href="/me" class="flex items-center gap-4">
+                            <img
+                                src={`/img/users/${user.photo}`}
+                                alt={`Photo of ${user.name}`}
+                                class="h-12 w-12 rounded-full object-cover"
+                            />
+                            <span class="text-white text-lg font-medium">{user.name.split(' ')[0]}</span>
+                        </a>
+                    </>
+                ) : (
+                    <>
+                        <a href="/login" class="text-white text-lg font-medium hover:text-green-200 transition-colors">
+                            Log in
+                        </a>
+                        <a
+                            href="/signup"
+                            class="bg-white text-green-600 px-8 py-3 rounded-full text-lg font-medium hover:bg-green-100 transition-colors"
+                        >
+                            Sign up
+                        </a>
+                    </>
+                )
+            }
+        </div>
+    </nav>
+</header>
+
+<style>
+    .clip-path-polygon {
+        clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+    }
+</style>

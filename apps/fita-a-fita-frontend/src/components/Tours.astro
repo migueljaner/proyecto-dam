@@ -1,0 +1,100 @@
+---
+const tours = await fetch('http://localhost:3000/api/v1/tours/').then((res) => res.json());
+
+interface Tour {
+    name: string;
+    imageCover: string;
+    difficulty: string;
+    duration: number;
+    summary: string;
+    startLocation: {
+        description: string;
+    };
+    startDates: string[];
+    locations: any[];
+    maxGroupSize: number;
+    price: number;
+    ratingsAverage: number;
+    ratingsQuantity: number;
+    slug: string;
+}
+
+console.log(tours);
+--- 
+
+{tours.data.data.map((tour: Tour) => (
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <!-- Card Header -->
+        <div class="relative">
+            <div class="absolute inset-0 bg-gradient-to-br from-green-400/80 to-green-600/80 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+            <img 
+                src={`/img/tours/${tour.imageCover}`} 
+                alt={tour.name}
+                class="w-full h-64 object-cover"
+            />
+            <h3 class="absolute bottom-0 right-0 bg-green-500 text-white text-xl font-bold px-6 py-2">
+                {tour.name}
+            </h3>
+        </div>
+
+        <!-- Card Details -->
+        <div class="p-6">
+            <h4 class="text-green-500 text-lg font-semibold mb-4">
+                {tour.difficulty} {tour.duration}-day tour
+            </h4>
+            <p class="text-gray-600 mb-6">
+                {tour.summary}
+            </p>
+
+            <!-- Card Data -->
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="flex items-center gap-2">
+                    <svg class="w-6 h-6 text-green-500">
+                        <use href="/img/icons.svg#icon-map-pin" />
+                    </svg>
+                    <span class="text-gray-600">{tour.startLocation.description}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <svg class="w-6 h-6 text-green-500">
+                        <use href="/img/icons.svg#icon-calendar" />
+                    </svg>
+                    <span class="text-gray-600">
+                        {new Date(tour.startDates[0]).toLocaleString('en-us', { month: 'long', year: 'numeric' })}
+                    </span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <svg class="w-6 h-6 text-green-500">
+                        <use href="/img/icons.svg#icon-flag" />
+                    </svg>
+                    <span class="text-gray-600">{tour.locations.length} stops</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <svg class="w-6 h-6 text-green-500">
+                        <use href="/img/icons.svg#icon-user" />
+                    </svg>
+                    <span class="text-gray-600">{tour.maxGroupSize} people</span>
+                </div>
+            </div>
+
+            <!-- Card Footer -->
+            <div class="flex justify-between items-center pt-6 border-t border-gray-200">
+                <div>
+                    <p class="text-gray-600">
+                        <span class="text-green-500 font-bold">${tour.price}</span>
+                        <span class="text-gray-500"> per person</span>
+                    </p>
+                    <p class="text-gray-600">
+                        <span class="text-green-500 font-bold">{tour.ratingsAverage}</span>
+                        <span class="text-gray-500"> rating ({tour.ratingsQuantity})</span>
+                    </p>
+                </div>
+                <a 
+                    href={`/tour/${tour.slug}`}
+                    class="inline-block bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-600 transition-colors"
+                >
+                    Details
+                </a>
+            </div>
+        </div>
+    </div>
+))}

@@ -24,7 +24,7 @@ const app = express();
 // Enable CORS
 app.use(
     cors({
-        origin: 'http://localhost:5173',
+        origin: 'http://localhost:4321',
         credentials: true,
     }),
 );
@@ -37,7 +37,7 @@ app.use(
             'script-src': ["'self'", 'https://unpkg.com', 'https://*.stripe.com'],
             'default-src': ["'self'", 'https://*.stripe.com'],
             'img-src': ["'self'", 'data:', 'https://*.tile.openstreetmap.org'],
-            'connect-src': ["'self'", 'http://localhost:5173', 'http://localhost:3000'],
+            'connect-src': ["'self'", 'http://localhost:4321', 'http://localhost:3000'],
         },
     }),
 );

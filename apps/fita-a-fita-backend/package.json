@@ -7,10 +7,7 @@
         "import:data": "npx ts-node -T src/dev-data/data/import-dev-data.ts --import",
         "delete:data": "npx ts-node -T src/dev-data/data/import-dev-data.ts --delete",
         "start:dev": "nodemon src/server.ts",
-        "start:prod": "NODE_ENV=production&&nodemon src/server.ts",
-        "debug": "node --inspect-brk server.js",
-        "watch": "esbuild ./src/public/js/index.js --bundle --outfile=./src/public/js/bundle.js --watch",
-        "build": "esbuild ./src/public/js/index.js --bundle --outfile=./src/public/js/bundle.js"
+        "start:prod": "NODE_ENV=production&&nodemon src/server.ts"
     },
     "author": "",
     "license": "ISC",

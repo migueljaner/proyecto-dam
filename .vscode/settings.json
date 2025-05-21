@@ -3,5 +3,7 @@
         {
             "mode": "auto"
         }
-    ]
+    ],
+    "editor.formatOnSave": true,
+    "eslint.validate": ["astro"]
 }
