@@ -12,31 +12,31 @@ services:
         volumes:
             - mongo-data:/data/db
             - ./apps/fita-a-fita-backend/.docker/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-        networks:
-            - fita-a-fita-network
-    fita-a-fita-frontend:
-        build:
-            context: ./apps/fita-a-fita-frontend
-            dockerfile: .docker/Dockerfile
-        ports:
-            - 4321:4321
-        networks:
-            - fita-a-fita-network
+#         networks:
+#             - fita-a-fita-network
+#     fita-a-fita-frontend:
+#         build:
+#             context: ./apps/fita-a-fita-frontend
+#             dockerfile: .docker/Dockerfile
+#         ports:
+#             - 4321:4321
+#         networks:
+#             - fita-a-fita-network
 
-    fita-a-fita-backend:
-        build:
-            context: ./apps/fita-a-fita-backend
-            dockerfile: .docker/Dockerfile
-        ports:
-            - 3000:3000
-        networks:
-            - fita-a-fita-network
+#     fita-a-fita-backend:
+#         build:
+#             context: ./apps/fita-a-fita-backend
+#             dockerfile: .docker/Dockerfile
+#         ports:
+#             - 3000:3000
+#         networks:
+#             - fita-a-fita-network
 
 volumes:
     mongo-data: # name of the volume
         driver: local # driver of the volume
         external: false # if the volume is external
 
-networks:
-    fita-a-fita-network:
-        driver: bridge
+# networks:
+#     fita-a-fita-network:
+#         driver: bridge

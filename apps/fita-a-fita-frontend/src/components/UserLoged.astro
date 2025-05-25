@@ -1,0 +1,54 @@
+---
+import { getBackendUrl } from '../utils/env';
+
+const response = (await Astro.session?.get('user')) || null;
+
+const user = response?.data;
+---
+
+<script>
+    import { actions } from 'astro:actions';
+    const logout = async () => {
+        const response = await actions.logout();
+        if (response.data?.success) {
+            window.location.href = '/';
+        }
+    };
+
+    document.getElementById('logout-button')?.addEventListener('click', logout);
+</script>
+
+<div class="flex items-center gap-8">
+    {
+        user ? (
+            <>
+                <button
+                    class="text-white text-lg font-medium hover:text-green-200 transition-colors"
+                    id="logout-button"
+                >
+                    Log out
+                </button>
+                <a href="/me" class="flex items-center gap-4">
+                    <img
+                        src={`${getBackendUrl()}/img/users/${user.photo}`}
+                        alt={`Photo of ${user.name}`}
+                        class="h-12 w-12 rounded-full object-cover"
+                    />
+                    <span class="text-white text-lg font-medium">{user.name?.split(' ')[0] || 'User'}</span>
+                </a>
+            </>
+        ) : (
+            <>
+                <a href="/login" class="text-white text-lg font-medium hover:text-green-200 transition-colors">
+                    Log in
+                </a>
+                <a
+                    href="/signup"
+                    class="bg-white text-green-600 px-8 py-3 rounded-full text-lg font-medium hover:bg-green-100 transition-colors"
+                >
+                    Sign up
+                </a>
+            </>
+        )
+    }
+</div>

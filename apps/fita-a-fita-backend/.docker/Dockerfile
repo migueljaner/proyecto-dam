@@ -4,7 +4,7 @@ WORKDIR /app
 COPY . .
 RUN rm -rf .env
 RUN touch .env
-RUN echo "NODE_ENV=development" >> .env
+RUN echo "NODE_ENV=production" >> .env
 RUN echo "DATABASE=mongodb://<USER>:<PASSWORD>@mongodb:27017/fita-a-fita?retryWrites=true&w=majority" >> .env
 RUN echo "DATABASE_PASSWORD=admin" >> .env
 RUN echo "DATABASE_USER=admin" >> .env

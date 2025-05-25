@@ -1,0 +1,32 @@
+---
+interface Props {
+    review: {
+        review: string;
+        rating: number;
+        user: {
+            name: string;
+            photo: string;
+        };
+    };
+}
+
+const { review } = Astro.props;
+---
+
+<div class="reviews__card">
+    <div class="reviews__avatar">
+        <img class="reviews__avatar-img" src={`/img/users/${review.user.photo}`} alt={review.user.name} />
+        <h6 class="reviews__user">{review.user.name}</h6>
+    </div>
+    <p class="reviews__text">{review.review}</p>
+    <div class="reviews__rating">
+        {
+            Array.from({ length: 5 }).map((_, i) => (
+                <svg class={`reviews__star reviews__star--${i < review.rating ? 'active' : 'inactive'}`}>
+                    <use xlink:href="/img/icons.svg#icon-star" />
+                </svg>
+            ))
+        }
+    </div>
+</div>
+

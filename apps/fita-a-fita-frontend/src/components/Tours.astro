@@ -1,6 +1,14 @@
 ---
-// TODO: get tours from backend using fetch depending on the environment (local or docker)
-const tours = await fetch('http://fita-a-fita-backend:3000/api/v1/tours/').then((res) => res.json());
+import { getBackendUrl } from '../utils/env';
+
+// TODO: get tours from backend using fetch depending on the environment (local or docker)  
+let url = getBackendUrl() + '/';
+
+const tours = await fetch(url).then((res) =>res.json()).then((data) => data.tours).catch((err) => {
+    console.error(err);
+    return [];
+});
+
 
 interface Tour {
     name: string;
@@ -19,17 +27,15 @@ interface Tour {
     ratingsQuantity: number;
     slug: string;
 }
-
-console.log(tours);
 --- 
 
-{tours.data.data.map((tour: Tour) => (
+{tours?.map((tour: Tour) => (
     <div class="bg-white rounded-lg shadow-lg overflow-hidden">
         <!-- Card Header -->
         <div class="relative">
             <div class="absolute inset-0 bg-gradient-to-br from-green-400/80 to-green-600/80 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
             <img 
-                src={`/img/tours/${tour.imageCover}`} 
+                src={`${getBackendUrl()}/img/tours/${tour.imageCover}`} 
                 alt={tour.name}
                 class="w-full h-64 object-cover"
             />
