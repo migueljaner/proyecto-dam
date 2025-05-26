@@ -14,14 +14,12 @@ export const server = {
             try {
                 const res = await fetch(getBackendUrl() + '/api/v1/users/login', {
                     method: 'POST',
-                    credentials: 'include',
                     body: JSON.stringify({
                         email,
                         password,
                     }),
                     headers: {
                         'Content-Type': 'application/json',
-                        Accept: 'application/json',
                     },
                 });
 
@@ -35,8 +33,8 @@ export const server = {
                         context.cookies.set('jwt', setCookieHeader.split(';')[0].split('=')[1], {
                             path: '/',
                             httpOnly: false,
-                            secure: process.env.NODE_ENV === 'production',
-                            sameSite: 'lax',
+                            secure: false,
+                            sameSite: 'none',
                         });
 
                         context.session?.set('user', data);

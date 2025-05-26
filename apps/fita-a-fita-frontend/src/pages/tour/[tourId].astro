@@ -1,0 +1,213 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getBackendUrl } from '../../utils/env';
+import LeafletMap from '../../components/Leaflet.astro';
+
+const { tourId } = Astro.params;
+const jwt = Astro.cookies.get('jwt')?.value;
+
+if (!jwt) {
+    return Astro.redirect('/');
+}
+
+const response =
+    (await fetch(`${getBackendUrl()}/tour/${tourId}`, {
+        credentials: 'include',
+        headers: {
+            Cookie: `jwt=${jwt}`,
+        },
+    }).then((res) => res.json())) || {};
+
+if (response.status === 'error') {
+    return Astro.redirect('/');
+}
+
+const { tour } = response;
+
+export const prerender = false;
+---
+
+<Layout>
+    <section class="relative h-[38vw] clip-path-tour">
+        <div class="h-full">
+            <div class="absolute inset-0 bg-gradient-to-br from-green-400 to-green-600 opacity-85"></div>
+            <img
+                class="h-full w-full object-cover object-[50%_25%]"
+                src={`${getBackendUrl()}/img/tours/${tour.imageCover}`}
+                alt={tour.name}
+            />
+        </div>
+
+        <div class="absolute bottom-[13vw] left-1/2 top-[35%] -translate-x-1/2 -translate-y-1/2">
+            <h1 class="text-5xl text-center text-white uppercase font-light w-[70%] mx-auto">
+                <span class="inline-block bg-gradient-to-br from-green-400/85 to-green-600/85 px-6 py-4"
+                    >{tour.name}</span
+                >
+            </h1>
+            <div class="mt-12 flex items-center justify-center text-gray-100">
+                <div class="flex items-center text-2xl font-bold uppercase">
+                    <svg class="mr-3 h-8 w-8 drop-shadow-lg">
+                        <use xlink:href="/img/icons.svg#icon-clock"></use>
+                    </svg>
+                    <span>{tour.duration} days</span>
+                </div>
+                <div class="ml-16 flex items-center text-2xl font-bold uppercase">
+                    <svg class="mr-3 h-8 w-8 drop-shadow-lg">
+                        <use xlink:href="/img/icons.svg#icon-map-pin"></use>
+                    </svg>
+                    <span>{tour?.startLocation?.description}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mt-[-9vw] flex bg-gray-50">
+        <div class="flex w-full px-[8vw] pt-[14vw] pb-[calc(1vw+9vw)]">
+            <div class="flex-1">
+                <div class="bg-gray-100 p-8">
+                    <h2
+                        class="mb-14 text-3xl font-bold uppercase text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-green-600"
+                    >
+                        Quick facts
+                    </h2>
+                    <div class="flex items-center text-2xl mb-9">
+                        <svg class="mr-5 h-9 w-9 text-green-500">
+                            <use xlink:href="/img/icons.svg#icon-calendar"></use>
+                        </svg>
+                        <span class="mr-9 font-bold uppercase text-lg">Next date</span>
+                        <span class="capitalize">
+                            {new Date(tour?.startDates[0]).toLocaleString('en-us', { month: 'long', year: 'numeric' })}
+                        </span>
+                    </div>
+                    <div class="flex items-center text-2xl mb-9">
+                        <svg class="mr-5 h-9 w-9 text-green-500">
+                            <use xlink:href="/img/icons.svg#icon-trending-up"></use>
+                        </svg>
+                        <span class="mr-9 font-bold uppercase text-lg">Difficulty</span>
+                        <span class="capitalize">{tour?.difficulty}</span>
+                    </div>
+                    <div class="flex items-center text-2xl mb-9">
+                        <svg class="mr-5 h-9 w-9 text-green-500">
+                            <use xlink:href="/img/icons.svg#icon-user"></use>
+                        </svg>
+                        <span class="mr-9 font-bold uppercase text-lg">Participants</span>
+                        <span class="capitalize">{tour?.maxGroupSize} people</span>
+                    </div>
+                    <div class="flex items-center text-2xl mb-9">
+                        <svg class="mr-5 h-9 w-9 text-green-500">
+                            <use xlink:href="/img/icons.svg#icon-star"></use>
+                        </svg>
+                        <span class="mr-9 font-bold uppercase text-lg">Rating</span>
+                        <span class="capitalize">{tour?.ratingsAverage} / 5</span>
+                    </div>
+                </div>
+
+                <div class="mt-28">
+                    <h2
+                        class="mb-14 text-3xl font-bold uppercase text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-green-600"
+                    >
+                        Your tour guides
+                    </h2>
+                    {
+                        tour?.guides.map((guide: any) => (
+                            <div class="flex items-center text-2xl mb-9">
+                                <img
+                                    class="mr-5 h-14 w-14 rounded-full"
+                                    src={`${getBackendUrl()}/img/users/${guide.photo}`}
+                                    alt={guide.name}
+                                />
+                                <span class="mr-9 font-bold uppercase text-lg">{guide.role}</span>
+                                <span class="capitalize">{guide.name}</span>
+                            </div>
+                        ))
+                    }
+                </div>
+            </div>
+
+            <div class="flex-1">
+                <h2
+                    class="mb-14 text-3xl font-bold uppercase text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-green-600"
+                >
+                    About {tour.name} tour
+                </h2>
+                {tour?.description.split('\n').map((paragraph: any) => <p class="text-2xl mb-8">{paragraph}</p>)}
+            </div>
+        </div>
+    </section>
+
+    <section class="flex clip-path-tour mt-[-9vw] relative z-10">
+        {
+            tour?.images.map((image: any, i: number) => (
+                <div class="w-full">
+                    <img
+                        class={`w-full h-[110%] object-cover ${i === 0 ? 'pt-[15%]' : i === 1 ? 'pb-[15%]' : 'pb-[27%]'}`}
+                        src={`${getBackendUrl()}/img/tours/${image}`}
+                        alt={tour.name}
+                    />
+                </div>
+            ))
+        }
+    </section>
+
+    <section class="relative h-[35rem] mt-[-9vw]">
+        <LeafletMap
+            latitude={tour?.startLocation?.coordinates[1] || 0}
+            longitude={tour?.startLocation?.coordinates[0] || 0}
+            zoom={8}
+            container="map"
+            tileLayer="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution="© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
+            points={tour?.locations || []}
+        />
+    </section>
+
+    <section class="mt-[-9vw] bg-gray-100 px-12 pb-44 pt-[calc(15rem+9vw)]">
+        <div class="relative max-w-[105rem] mx-auto overflow-hidden bg-white p-24 rounded-3xl shadow-2xl">
+            <div
+                class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-[35%] z-10 h-60 w-60 rounded-full bg-gradient-to-br from-green-400 to-green-600 p-8 flex items-center justify-center shadow-lg"
+            >
+                <img src={`/img/logo-white.png`} alt="Natours logo" class="w-full" />
+            </div>
+            <img
+                class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-[10%] scale-97 z-[9] h-60 w-60 rounded-full shadow-lg"
+                src={`${getBackendUrl()}/img/tours/${tour?.images[1]}`}
+                alt="Tour Picture"
+            />
+            <img
+                class="absolute left-0 top-1/2 -translate-y-1/2 translate-x-[15%] scale-94 z-8 h-60 w-60 rounded-full shadow-lg"
+                src={`${getBackendUrl()}/img/tours/${tour?.images[2]}`}
+                alt="Tour Picture"
+            />
+            <div class="grid grid-cols-[1fr_auto] grid-rows-[auto_auto] gap-3 items-center">
+                <h2
+                    class="text-3xl font-bold uppercase text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-green-600"
+                >
+                    What are you waiting for?
+                </h2>
+                <p class="text-2xl">
+                    {tour?.duration} days. 1 adventure. Infinite memories. Make it yours today!
+                </p>
+
+                {
+                    tour?.isBooked ? (
+                        <button
+                            class="col-span-2 rounded-full bg-green-500 px-12 py-6 text-2xl font-medium text-white uppercase shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl"
+                            id="book-tour"
+                            data-tour-id={tour?.id}
+                        >
+                            You Already Booked
+                        </button>
+                    ) : (
+                        <button
+                            class="col-span-2 rounded-full bg-green-500 px-12 py-6 text-2xl font-medium text-white uppercase shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl"
+                            id="book-tour"
+                            data-tour-id={tour?.id}
+                        >
+                            Book tour now!
+                        </button>
+                    )
+                }
+            </div>
+        </div>
+    </section>
+</Layout>
