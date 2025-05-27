@@ -30,12 +30,7 @@ export const server = {
                     const setCookieHeader = res.headers.get('set-cookie');
 
                     if (setCookieHeader) {
-                        context.cookies.set('jwt', setCookieHeader.split(';')[0].split('=')[1], {
-                            path: '/',
-                            httpOnly: false,
-                            secure: false,
-                            sameSite: 'none',
-                        });
+                        context.cookies.set('jwt', setCookieHeader.split(';')[0].split('=')[1]);
 
                         context.session?.set('user', data);
                     }

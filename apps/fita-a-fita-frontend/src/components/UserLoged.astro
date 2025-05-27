@@ -9,7 +9,7 @@ const user = response?.data;
 <script>
     import { actions } from 'astro:actions';
     const logout = async () => {
-        const response = await actions.logout();
+        const response = await actions.logout({});
         if (response.data?.success) {
             window.location.href = '/';
         }

@@ -3,6 +3,7 @@ import Tour, { ITourDoc } from "../models/tourModel";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/appError";
 import Booking from "../models/bookingModel";
+import Review from "../models/reviewModel";
 
 export const getOverview = catchAsync(async (req: Request, res: Response) => {
   // 1) Get tour data from collection
@@ -20,9 +21,9 @@ export const getTour = catchAsync(
     const tour = (await Tour.findOne({ slug: req.params.slug })
       .populate({
         path: "reviews",
-        select: "review rating user",
+        select: "tour review rating user",
       })
-      .lean()) as ITourDoc & { isBooked?: boolean };
+      .exec()) as ITourDoc & { isBooked?: boolean };
 
     const myBookings = await Booking.find({ user: req.user?.id }).populate<{
       tour: ITourDoc;

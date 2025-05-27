@@ -2,6 +2,7 @@ import mongoose, { Schema, Model } from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
+import mongooseLeanVirtuals from "mongoose-lean-virtuals";
 
 //name, email, photo, password, passwordConfirm
 
@@ -32,77 +33,87 @@ interface IUserMethods {
 
 type UserModel = Model<IUserDoc, {}, IUserMethods>;
 
-const userSchema = new Schema<IUserDoc, UserModel, IUserMethods>({
-  name: {
-    type: String,
-    required: [true, "A user must have a name"],
-    trim: true,
-  },
-  email: {
-    type: String,
-    required: [true, "A user must have an email"],
-    unique: true,
-    lowercase: true,
-    validate: [validator.isEmail, "Provide a valid email"],
-  },
-  photo: {
-    type: String,
-    default: "default.jpg",
-  },
-  role: {
-    type: String,
-    enum: ["user", "guide", "lead-guide", "admin"],
-    default: "user",
-  },
-  password: {
-    type: String,
-    required: [true, "Please provide a password"],
-    minlength: 8,
-    select: false, //NOTE: This is for security reasons, we don't want to show the password in the response
-  },
-  passwordConfirm: {
-    type: String || undefined,
-    required: [true, "Please confirm your password"],
-    validate: {
-      //This only works on SAVE!!
-      validator: function (this: IUserDoc, el: string): boolean {
-        return el === this.password;
+const userSchema = new Schema<IUserDoc, UserModel, IUserMethods>(
+  {
+    name: {
+      type: String,
+      required: [true, "A user must have a name"],
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: [true, "A user must have an email"],
+      unique: true,
+      lowercase: true,
+      validate: [validator.isEmail, "Provide a valid email"],
+    },
+    photo: {
+      type: String,
+      default: "default.jpg",
+    },
+    role: {
+      type: String,
+      enum: ["user", "guide", "lead-guide", "admin"],
+      default: "user",
+    },
+    password: {
+      type: String,
+      required: [true, "Please provide a password"],
+      minlength: 8,
+      select: false, //NOTE: This is for security reasons, we don't want to show the password in the response
+    },
+    passwordConfirm: {
+      type: String || undefined,
+      required: [true, "Please confirm your password"],
+      validate: {
+        //This only works on SAVE!!
+        validator: function (this: IUserDoc, el: string): boolean {
+          return el === this.password;
+        },
+        message: "Passwords are not the same",
       },
-      message: "Passwords are not the same",
+    },
+    active: {
+      type: Boolean,
+      default: true,
+      select: false,
+    },
+    passwordChangedAt: Date,
+    passwordResetToken: String,
+    passwordResetExpires: Date,
+    emailConfirmToken: String,
+    emailConfirmExpires: Date,
+  },
+  {
+    toJSON: {
+      virtuals: true,
+    },
+    toObject: {
+      virtuals: true,
     },
   },
-  active: {
-    type: Boolean,
-    default: true,
-    select: false,
-  },
-  passwordChangedAt: Date,
-  passwordResetToken: String,
-  passwordResetExpires: Date,
-  emailConfirmToken: String,
-  emailConfirmExpires: Date,
-});
+);
 
-userSchema.pre("save", async function (next) {
-  //Only run this pass if pass was actually modified
-  if (!this.isModified("password")) return next();
+// userSchema.pre("save", async function (next) {
+//   //Only run this pass if pass was actually modified
+//   if (!this.isModified("password")) return next();
 
-  //Hash the password with cost of 12
-  this.password = await bcrypt.hash(this.password, 12);
+//   //Hash the password with cost of 12
+//   this.password = await bcrypt.hash(this.password, 12);
 
-  //Delete confirm password
-  this.passwordConfirm = undefined;
-  next();
-});
+//   //Delete confirm password
+//   this.passwordConfirm = undefined;
+//   next();
+// });
 
-userSchema.pre("save", function (next) {
-  //Only run this pass if pass was actually modified
-  if (!this.isModified("password") || this.isNew) return next();
+// userSchema.pre("save", function (next) {
+//   //Only run this pass if pass was actually modified
+//   if (!this.isModified("password") || this.isNew) return next();
 
-  //Substract 1 second to avoid errors
-  this.passwordChangedAt = new Date(Date.now() - 1000);
-  next();
-});
+//   //Substract 1 second to avoid errors
+//   this.passwordChangedAt = new Date(Date.now() - 1000);
+//   next();
+// });
 
 userSchema.pre(/^find/, function (this: mongoose.Query<any, any>, next) {
   //this points to the current query
@@ -157,6 +168,8 @@ userSchema.methods.createEmailConfirmToken = function () {
 
   return confirmToken;
 };
+
+userSchema.plugin(mongooseLeanVirtuals);
 
 const userModel = mongoose.model<IUserDoc, UserModel>("User", userSchema);
 
