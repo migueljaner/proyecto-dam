@@ -8,15 +8,13 @@ export const server = {
             email: z.string().email(),
             password: z.string().min(8),
         }),
-        handler: async ({ email, password }, context) => {
-            console.log('Email', email);
-            console.log('Password', password);
+        handler: async (input, context) => {
             try {
                 const res = await fetch(getBackendUrl() + '/api/v1/users/login', {
                     method: 'POST',
                     body: JSON.stringify({
-                        email,
-                        password,
+                        email: input.email,
+                        password: input.password,
                     }),
                     headers: {
                         'Content-Type': 'application/json',
@@ -25,16 +23,94 @@ export const server = {
 
                 const data = await res.json();
 
-                if (res.ok) {
+                if (data.status === 'success') {
                     // Get the Set-Cookie header from the response
                     const setCookieHeader = res.headers.get('set-cookie');
 
                     if (setCookieHeader) {
-                        context.cookies.set('jwt', setCookieHeader.split(';')[0].split('=')[1]);
+                        context.cookies.set('jwt', setCookieHeader.split(';')[0].split('=')[1], {
+                            path: '/',
+                            httpOnly: true,
+                            secure: true,
+                            sameSite: 'strict',
+                        });
 
-                        context.session?.set('user', data);
+                        context.session?.set('user', data.data);
                     }
-                    return { success: true, data };
+                    return { success: true, data: data.data };
+                }
+                return { success: false, data: data.message };
+            } catch (error) {
+                return { success: false, data: error };
+            }
+        },
+    }),
+    updateUserData: defineAction({
+        accept: 'form',
+        input: z.object({
+            name: z.string(),
+            email: z.string().email(),
+            photo: z.instanceof(File).optional(),
+        }),
+
+        handler: async (input, context) => {
+            const { name, email, photo } = input;
+            try {
+                const formData = new FormData();
+                formData.append('name', name);
+                formData.append('email', email);
+                if (photo) {
+                    formData.append('photo', photo);
+                }
+
+                const res = await fetch(getBackendUrl() + '/api/v1/users/updateMe', {
+                    method: 'PATCH',
+                    body: formData,
+                    headers: {
+                        Cookie: `jwt=${context.cookies.get('jwt')?.value || ''}`,
+                    },
+                });
+
+                const data = await res.json();
+
+                if (data.status === 'success') {
+                    context.session?.set('user', data.data.user);
+                    return { success: true, data: data.data };
+                }
+                return { success: false, data: data.message };
+            } catch (error) {
+                return { success: false, data: error };
+            }
+        },
+    }),
+    updatePassword: defineAction({
+        input: z.object({
+            passwordCurrent: z.string().min(8),
+            password: z.string().min(8),
+            passwordConfirm: z.string().min(8),
+        }),
+        handler: async ({ passwordCurrent, password, passwordConfirm }, context) => {
+            try {
+                const res = await fetch(getBackendUrl() + '/api/v1/users/updateMyPassword', {
+                    method: 'PATCH',
+                    body: JSON.stringify({
+                        passwordCurrent,
+                        password,
+                        passwordConfirm,
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Cookie: 'jwt=' + (context.cookies.get('jwt')?.value || ''),
+                    },
+                });
+
+                const data = await res.json();
+                console.log(data);
+
+                if (data.status === 'success') {
+                    context.cookies.delete('jwt', { path: '/' });
+                    context.session?.set('user', null);
+                    return { success: true, data: data.data };
                 }
                 return { success: false, data };
             } catch (error) {

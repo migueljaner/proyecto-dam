@@ -10,6 +10,9 @@ export default defineConfig({
     adapter: node({
         mode: 'standalone',
     }),
+    server: {
+        port: 4321,
+    },
     vite: {
         plugins: [tailwindcss()],
     },

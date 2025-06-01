@@ -3,7 +3,7 @@ import { getBackendUrl } from '../utils/env';
 
 const response = (await Astro.session?.get('user')) || null;
 
-const user = response?.data;
+const user = response;
 ---
 
 <script>

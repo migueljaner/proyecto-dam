@@ -1,31 +1,43 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { actions } from 'astro:actions';
 
-if (Astro.request.method === 'POST') {
-    try {
-        const data = await Astro.request.formData();
-        const email = data.get('email') as string;
-        const password = data.get('password') as string;
-        const response = await Astro.callAction(actions.login, { email, password });
-        if (response.data?.success) {
-            return Astro.redirect('/');
-        }
-        return Astro.redirect('/login');
-    } catch (error) {
-        console.error('Error', error);
-    }
+const user = await Astro.session?.get('user');
+
+if (user) {
+    return Astro.redirect('/');
 }
 
 export const prerender = false;
 ---
 
+<script>
+    import { actions } from 'astro:actions';
+    const login = async (e: Event) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const { data, error } = await actions.login({
+            email: formData.get('email') as string,
+            password: formData.get('password') as string,
+        });
+
+        if (data?.success) {
+            redirect('/');
+        }
+    };
+
+    const redirect = (url: string) => {
+        window.location.href = url;
+    };
+
+    const form = document.querySelector('#loginForm') as HTMLFormElement;
+    form.addEventListener('submit', login);
+</script>
 <Layout title="Fita a Fita | Log into your account">
     <main class="py-16 px-8">
         <div class="max-w-7xl mx-auto">
             <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
                 <h2 class="text-2xl font-bold mb-6 text-center">Log into your account</h2>
-                <form class="space-y-4" method="POST">
+                <form class="space-y-4" method="POST" id="loginForm">
                     <div class="space-y-2">
                         <label class="block text-sm font-medium text-gray-700" for="email"> Email address </label>
                         <input
@@ -50,7 +62,7 @@ export const prerender = false;
                     </div>
                     <button
                         type="submit"
-                        class="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition-colors duration-200"
+                        class="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/80 transition-colors duration-200"
                     >
                         Login
                     </button>
