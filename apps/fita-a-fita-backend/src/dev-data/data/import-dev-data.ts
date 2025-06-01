@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import Tour from "../../models/tourModel";
 import Review from "../../models/reviewModel";
 import User from "../../models/userModel";
+import Booking from "../../models/bookingModel";
 
 dotenv.config({ path: "./.env" });
 
@@ -20,6 +21,9 @@ const reviews = JSON.parse(
   fs.readFileSync(`${__dirname}/reviews.json`, "utf-8"),
 );
 const users = JSON.parse(fs.readFileSync(`${__dirname}/users.json`, "utf-8"));
+const bookings = JSON.parse(
+  fs.readFileSync(`${__dirname}/bookings.json`, "utf-8"),
+);
 
 const importData = async () => {
   try {
@@ -27,6 +31,7 @@ const importData = async () => {
     await Review.create(reviews);
     // NOTE: We have to comment the pre save middleware to avoid the password hashing
     await User.create(users, { validateBeforeSave: false });
+    await Booking.create(bookings);
 
     console.log("Data succesfully loaded!");
     process.exit();
@@ -40,6 +45,7 @@ const deleteData = async () => {
     await Tour.deleteMany();
     await Review.deleteMany();
     await User.deleteMany();
+    await Booking.deleteMany();
     console.log("Data succesfully deleted");
     process.exit();
   } catch (err) {

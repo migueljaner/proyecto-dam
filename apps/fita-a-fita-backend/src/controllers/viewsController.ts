@@ -47,7 +47,10 @@ export const getTour = catchAsync(
 
     // 3) Render template using data from 1)
     res.status(200).json({
-      tour,
+      tour: {
+        ...tour.toObject(),
+        isBooked: tour.isBooked,
+      },
     });
   },
 );
@@ -71,8 +74,7 @@ export const getMyTours = catchAsync(async (req: Request, res: Response) => {
 
   const tours = await Tour.find({ _id: { $in: tourIds } });
 
-  res.status(200).render("overview", {
-    title: "My Tours",
+  res.status(200).json({
     tours,
   });
 });

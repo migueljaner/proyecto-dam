@@ -7,7 +7,9 @@ const { tourId } = Astro.params;
 
 const response =
     (await fetch(`${getBackendUrl()}/tour/${tourId}`, {
-        credentials: 'include',
+        headers: {
+            Cookie: `jwt=${Astro.cookies.get('jwt')?.value || ''}`,
+        },
     }).then((res) => res.json())) || {};
 
 if (response.status === 'error') {
@@ -19,6 +21,10 @@ const { tour } = response;
 
 export const prerender = false;
 ---
+
+<script define:vars={{ tour, user }}>
+    console.log(tour.isBooked, user);
+</script>
 
 <Layout>
     <section class="relative h-[calc(100vh-9vw)] clip-path-tour z-40">

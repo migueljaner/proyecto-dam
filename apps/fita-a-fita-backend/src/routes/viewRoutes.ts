@@ -13,7 +13,7 @@ router.get(
   viewsController.getOverview,
 );
 router.get("/my-tours", authController.protect, viewsController.getMyTours);
-router.get("/tour/:slug", viewsController.getTour);
+router.get("/tour/:slug", authController.protect, viewsController.getTour);
 router.get(
   "/my-bookings",
   authController.protect,
