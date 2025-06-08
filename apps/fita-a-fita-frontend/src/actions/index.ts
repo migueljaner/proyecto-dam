@@ -37,9 +37,9 @@ export const server = {
 
                         context.session?.set('user', data.data);
                     }
-                    return { success: true, data: data.data };
+                    return { success: true, data: data.data, message: data.message };
                 }
-                return { success: false, data: data.message };
+                return { success: false, data: data.message, message: data.message };
             } catch (error) {
                 return { success: false, data: error };
             }

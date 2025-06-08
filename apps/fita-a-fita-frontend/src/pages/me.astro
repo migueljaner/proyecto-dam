@@ -14,6 +14,7 @@ export const prerender = false;
 
 <script>
     import { actions } from 'astro:actions';
+    import { generateToast } from '../utils/toast';
 
     const updateUserData = async (e: Event) => {
         e.preventDefault();
@@ -22,7 +23,13 @@ export const prerender = false;
         const { data, error } = await actions.updateUserData(formData);
 
         if (data?.success) {
-            window.location.reload();
+            generateToast('User updated successfully', 'success');
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
+        } else {
+            generateToast('Something went wrong', 'error');
         }
     };
 
@@ -37,7 +44,13 @@ export const prerender = false;
         });
 
         if (data?.success) {
-            window.location.href = '/login';
+            generateToast('Password updated successfully', 'success');
+
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 1500);
+        } else {
+            generateToast('Something went wrong', 'error');
         }
     };
 

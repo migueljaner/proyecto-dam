@@ -102,8 +102,6 @@ export const protect = catchAsync(
       token = req.cookies.jwt;
     }
 
-    console.log("Token", token);
-
     if (!token) {
       return next(
         new AppError("You are not logged in! Please log in to get acces", 401),

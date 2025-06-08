@@ -34,10 +34,29 @@ interface Tour {
     ratingsQuantity: number;
     slug: string;
 }
+
+const difficulties = ['easy', 'medium', 'difficult'];
 --- 
 
-{tours?.map((tour: Tour) => (
-    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+<div class="flex flex-col md:flex-row md:items-start gap-8 w-full">
+  <!-- Filtros -->
+  <div class="w-full md:w-auto md:min-w-[220px] md:max-w-xs">
+    <form id="filters" class="bg-white rounded-lg shadow p-4 mb-8 md:mb-0 sticky top-4 z-10">
+      <label class="block mb-2 font-semibold text-primary">Price (max)</label>
+      <input type="range" id="priceFilter" min="0" max="2000" step="50" value="2000" class="w-full mb-4" />
+      <span id="priceValue" class="block mb-4 text-gray-700">$2000</span>
+      <label class="block mb-2 font-semibold text-primary">Difficulty</label>
+      <select id="difficultyFilter" class="w-full mb-2 rounded border-gray-300">
+        <option value="">All</option>
+        {difficulties.map(d => <option value={d}>{d.charAt(0).toUpperCase() + d.slice(1)}</option>)}
+      </select>
+    </form>
+  </div>
+
+  <!-- Tarjetas de tours -->
+  <div id="tours-list" class="flex-1 min-w-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {tours?.map((tour: Tour) => (
+      <div class="tour-card bg-white rounded-lg shadow-lg overflow-hidden" data-price={tour.price} data-difficulty={tour.difficulty}>
         <!-- Card Header -->
         <div class="relative">
             <div class="absolute inset-0 bg-gradient-to-br from-primary/80 to-primary/80 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
@@ -110,5 +129,32 @@ interface Tour {
                 </a>
             </div>
         </div>
-    </div>
-))}
+      </div>
+    ))}
+  </div>
+</div>
+
+<script>
+  // Filtro automático de tours
+  const priceInput = document.getElementById('priceFilter') as HTMLInputElement | null;
+  const priceValue = document.getElementById('priceValue') as HTMLSpanElement | null;
+  const difficultyInput = document.getElementById('difficultyFilter') as HTMLSelectElement | null;
+  const tourCards = document.querySelectorAll('.tour-card');
+
+  function filterTours() {
+    if (!priceInput || !priceValue || !difficultyInput) return;
+    const maxPrice = parseInt(priceInput.value, 10);
+    const difficulty = difficultyInput.value;
+    priceValue.textContent = `$${maxPrice}`;
+    tourCards.forEach(card => {
+      const price = parseInt(card.getAttribute('data-price') || '0', 10);
+      const diff = card.getAttribute('data-difficulty') || '';
+      const show = price <= maxPrice && (!difficulty || diff === difficulty);
+      (card as HTMLElement).style.display = show ? '' : 'none';
+    });
+  }
+
+  priceInput?.addEventListener('input', filterTours);
+  difficultyInput?.addEventListener('change', filterTours);
+  window.addEventListener('DOMContentLoaded', filterTours);
+</script>
