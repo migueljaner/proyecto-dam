@@ -127,4 +127,29 @@ export const server = {
             return { success: true };
         },
     }),
+    bookTour: defineAction({
+        input: z.object({
+            tourId: z.string(),
+        }),
+        handler: async (input, context) => {
+            const { tourId } = input;
+            try {
+                const res = await fetch(getBackendUrl() + '/api/v1/bookings/checkout-session/' + tourId, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Cookie: 'jwt=' + (context.cookies.get('jwt')?.value || ''),
+                    },
+                });
+
+                const data = await res.json();
+
+                if (data.status === 'success') {
+                    return { success: true, data: data.session };
+                }
+                return { success: false, data: data.message };
+            } catch (error) {
+                return { success: false, data: error };
+            }
+        },
+    }),
 };

@@ -22,8 +22,37 @@ const { tour } = response;
 export const prerender = false;
 ---
 
-<script define:vars={{ tour, user }}>
-    console.log(tour.isBooked, user);
+<script>
+    import { loadStripe } from '@stripe/stripe-js';
+    import { actions } from 'astro:actions';
+    const stripe = await loadStripe(
+        'pk_test_51RXdki2XX3ulCKCwc941mgInWkCVeTlmhYSFpT0uenmiMEaq2l4TII2cxPNOtu6NzKOpxOQj5ANW6IDSUKeKK3ay00Z5Srtuyq',
+    );
+
+    const bookTour = async (tourId: string) => {
+        try {
+            // 1) Get checkout session from API
+            const session = await actions.bookTour({ tourId: tourId });
+
+            console.log('session', session);
+
+            // 2) Create checkout form + charge credit card
+            await stripe!.redirectToCheckout({
+                sessionId: session.data?.data?.id,
+            });
+        } catch (err: any) {
+            console.error(err);
+            alert(err.message);
+        }
+    };
+
+    const bookTourButton = document.getElementById('book-tour');
+    if (bookTourButton) {
+        bookTourButton.addEventListener('click', (e: any) => {
+            e.target.textContent = 'Processing...';
+            bookTour(e.target.dataset.tourId);
+        });
+    }
 </script>
 
 <Layout>
@@ -157,7 +186,7 @@ export const prerender = false;
         <LeafletMap
             latitude={tour?.startLocation?.coordinates[1] || 0}
             longitude={tour?.startLocation?.coordinates[0] || 0}
-            zoom={8}
+            zoom={12}
             container="map"
             tileLayer="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution="© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
@@ -232,11 +261,7 @@ export const prerender = false;
 
                 {
                     user && tour?.isBooked ? (
-                        <button
-                            class="col-3 rounded-full bg-primary px-12 py-6 text-xl font-medium text-white uppercase shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer"
-                            id="book-tour"
-                            data-tour-id={tour?.id}
-                        >
+                        <button class="col-3 rounded-full bg-primary px-12 py-6 text-xl font-medium text-white uppercase shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer">
                             You Already Booked
                         </button>
                     ) : user ? (
@@ -250,7 +275,6 @@ export const prerender = false;
                     ) : (
                         <button
                             class="col-3 rounded-full bg-primary px-12 py-6 text-xl font-medium text-white uppercase shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer"
-                            id="book-tour"
                             data-tour-id={tour?.id}
                             onclick={`window.location.href = '/login';`}
                         >

@@ -41,19 +41,19 @@ const {
     <div id={container} style={containerstyle}></div>
     <script>
         // @ts-ignore
-        import L from 'leaflet';
+        import L, { latLng } from 'leaflet';
         import 'leaflet/dist/leaflet.css';
 
         class LeafletMap extends HTMLElement {
             constructor() {
                 super();
 
-                const latlng = [Number(this.dataset.latitude), Number(this.dataset.longitude)];
+                const latlng = latLng(Number(this.dataset.latitude), Number(this.dataset.longitude));
 
-                const map = L.map(this.dataset.container, {
+                const map = L.map(this.dataset.container!, {
                     zoomControl: false,
                 }).setView(latlng, Number(this.dataset.zoom));
-                L.tileLayer(this.dataset.tiles, { attribution: this.dataset.attribution }).addTo(map);
+                L.tileLayer(this.dataset.tiles!, { attribution: this.dataset.attribution! }).addTo(map);
                 map.scrollWheelZoom.disable();
                 const greenIcon = L.icon({
                     iconUrl: '/img/pin.png',
@@ -62,9 +62,22 @@ const {
                     popupAnchor: [0, -50],
                 });
 
-                JSON.parse(this.dataset.points || '[]').forEach((point: any) => {
-                    L.marker([point.coordinates[1], point.coordinates[0]], { icon: greenIcon }).addTo(map);
+                JSON.parse(this.dataset.points!).forEach((point: any) => {
+                    console.log(point);
+                    L.marker(latLng(point.coordinates[1], point.coordinates[0]), { icon: greenIcon })
+                        .addTo(map)
+                        .bindPopup(`<p>Day ${point.day}: ${point.description}</p>`, {
+                            autoClose: false,
+                        })
+                        .openPopup();
                 });
+
+                const bounds = L.latLngBounds(
+                    JSON.parse(this.dataset.points!).map((point: any) =>
+                        latLng(point.coordinates[1], point.coordinates[0]),
+                    ),
+                );
+                map.fitBounds(bounds);
             }
         }
 
