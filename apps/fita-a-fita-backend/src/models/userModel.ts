@@ -94,26 +94,26 @@ const userSchema = new Schema<IUserDoc, UserModel, IUserMethods>(
   },
 );
 
-userSchema.pre("save", async function (next) {
-  //Only run this pass if pass was actually modified
-  if (!this.isModified("password")) return next();
+// userSchema.pre("save", async function (next) {
+//   //Only run this pass if pass was actually modified
+//   if (!this.isModified("password")) return next();
 
-  //Hash the password with cost of 12
-  this.password = await bcrypt.hash(this.password, 12);
+//   //Hash the password with cost of 12
+//   this.password = await bcrypt.hash(this.password, 12);
 
-  //Delete confirm password
-  this.passwordConfirm = undefined;
-  next();
-});
+//   //Delete confirm password
+//   this.passwordConfirm = undefined;
+//   next();
+// });
 
-userSchema.pre("save", function (next) {
-  //Only run this pass if pass was actually modified
-  if (!this.isModified("password") || this.isNew) return next();
+// userSchema.pre("save", function (next) {
+//   //Only run this pass if pass was actually modified
+//   if (!this.isModified("password") || this.isNew) return next();
 
-  //Substract 1 second to avoid errors
-  this.passwordChangedAt = new Date(Date.now() - 1000);
-  next();
-});
+//   //Substract 1 second to avoid errors
+//   this.passwordChangedAt = new Date(Date.now() - 1000);
+//   next();
+// });
 
 userSchema.pre(/^find/, function (this: mongoose.Query<any, any>, next) {
   //this points to the current query
