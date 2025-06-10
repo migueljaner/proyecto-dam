@@ -6,8 +6,6 @@ import { getBackendUrl } from '../utils/env';
 
 <Layout>
     <main class="py-16 px-8">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Tours server:defer url={getBackendUrl() + '/my-tours'} />
-        </div>
+        <Tours server:defer url={getBackendUrl() + '/my-tours'} />
     </main>
 </Layout>

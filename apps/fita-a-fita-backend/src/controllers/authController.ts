@@ -54,12 +54,15 @@ export const signup = catchAsync(
 
     await newUser.save({ validateBeforeSave: false });
 
+    console.log(newUser);
+
     const url = `${req.protocol}://${req.get("host")}/api/v1/users/confirmEmail/${confirmToken}`;
 
     await new Email(newUser, url).sendConfrimationEmail();
 
     res.status(201).json({
       status: "success",
+      message: "Please check your email to confirm your account",
     });
   },
 );
@@ -363,6 +366,6 @@ export const confirmEmail = catchAsync(
         //We only activate this in production
         secure: process.env.NODE_ENV === "production" ? true : false,
       })
-      .redirect("/me");
+      .redirect("http://localhost:4321/me");
   },
 );

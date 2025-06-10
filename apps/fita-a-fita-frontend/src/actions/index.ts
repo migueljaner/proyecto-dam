@@ -152,4 +152,33 @@ export const server = {
             }
         },
     }),
+    signup: defineAction({
+        input: z.object({
+            name: z.string().min(2),
+            email: z.string().email(),
+            password: z.string().min(8),
+            passwordConfirm: z.string().min(8),
+            role: z.enum(['user', 'guide']).default('user'),
+        }),
+        handler: async (input) => {
+            try {
+                const res = await fetch(getBackendUrl() + '/api/v1/users/signup', {
+                    method: 'POST',
+                    body: JSON.stringify(input),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                const data = await res.json();
+
+                if (data.status === 'success') {
+                    return { success: true, message: 'Please check your email to confirm your account' };
+                }
+                return { success: false, message: data.message };
+            } catch (error) {
+                return { success: false, message: 'Something went wrong' };
+            }
+        },
+    }),
 };
