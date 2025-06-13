@@ -181,4 +181,64 @@ export const server = {
             }
         },
     }),
+    forgotPassword: defineAction({
+        input: z.object({
+            email: z.string().email(),
+        }),
+        handler: async (input) => {
+            try {
+                const res = await fetch(getBackendUrl() + '/api/v1/users/forgotPassword', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        email: input.email,
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                const data = await res.json();
+
+                if (data.status === 'success') {
+                    return { success: true, message: 'Password reset link sent to your email' };
+                }
+                return { success: false, message: data.message };
+            } catch (error) {
+                return { success: false, message: 'Something went wrong' };
+            }
+        },
+    }),
+    resetPassword: defineAction({
+        input: z.object({
+            password: z.string().min(8),
+            passwordConfirm: z.string().min(8),
+            token: z.string(),
+        }),
+        handler: async (input) => {
+            try {
+                const res = await fetch(getBackendUrl() + '/api/v1/users/resetPassword/' + input.token, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        password: input.password,
+                        passwordConfirm: input.passwordConfirm,
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                const data = await res.json();
+
+                if (data.status === 'success') {
+                    return {
+                        success: true,
+                        message: 'Password reset successful! Please log in with your new password.',
+                    };
+                }
+                return { success: false, message: data.message };
+            } catch (error) {
+                return { success: false, message: 'Something went wrong' };
+            }
+        },
+    }),
 };

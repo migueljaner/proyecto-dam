@@ -18,17 +18,6 @@ class Email {
   }
 
   createTransport() {
-    if (process.env.NODE_ENV === "production") {
-      // Sendgrid
-      return nodemailer.createTransport({
-        service: "SendGrid",
-        auth: {
-          user: process.env.SENDGRID_USERNAME,
-          pass: process.env.SENDGRID_PASSWORD,
-        },
-      });
-    }
-
     // 1) Create a transporter
     return nodemailer.createTransport({
       host: process.env.EMAIL_HOST,

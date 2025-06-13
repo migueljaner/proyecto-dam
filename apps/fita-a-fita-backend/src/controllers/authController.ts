@@ -56,7 +56,7 @@ export const signup = catchAsync(
 
     console.log(newUser);
 
-    const url = `${req.protocol}://${req.get("host")}/api/v1/users/confirmEmail/${confirmToken}`;
+    const url = `${req.protocol}://localhost:4321/api/v1/users/confirmEmail/${confirmToken}`;
 
     await new Email(newUser, url).sendConfrimationEmail();
 
@@ -218,30 +218,26 @@ export const forgotPassword = catchAsync(
 
     // 3) Send it to user's email
 
-    res.status(200).json({
-      status: "success",
-      message: "Token sent to email!",
-      token: resetToken,
-    });
+    try {
+      const resetURL = `${req.protocol}://localhost:4321/reset-password?token=${resetToken}`;
+      await new Email(user, resetURL).sendPasswordReset();
 
-    // TODO: Send the token to the user's email
-    // try {
-    //     const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`;
-    //     await new Email(user, resetURL).sendPasswordReset();
+      res.status(200).json({
+        status: "success",
+        message: "Token sent to email!",
+      });
+    } catch (err) {
+      user.passwordResetToken = undefined;
+      user.passwordResetExpires = undefined;
 
-    //     res.status(200).json({
-    //         status: 'succes',
-    //         message: 'Token sent to email!',
-    //         //NOTE: This is not the best way to send the token, it should be just sent to the email, this is for development purposes
-    //         token: resetToken,
-    //     });
-    // } catch (err) {
-    //     user.passwordResetToken = undefined;
-    //     user.passwordResetExpires = undefined;
-
-    //     await user.save({ validateBeforeSave: false });
-    //     return next(new AppError('There was an error sending the email. Try again later!', 500));
-    // }
+      await user.save({ validateBeforeSave: false });
+      return next(
+        new AppError(
+          "There was an error sending the email. Try again later!",
+          500,
+        ),
+      );
+    }
   },
 );
 
