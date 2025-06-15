@@ -64,19 +64,23 @@ export const prerender = false;
             />
         </div>
 
-        <div class="absolute bottom-[13vw] left-1/2 top-[35%] -translate-x-1/2 -translate-y-1/2">
-            <h1 class="text-5xl text-center text-white uppercase font-light w-[70%] mx-auto">
-                <span class="inline-block bg-gradient-to-br from-primary/85 to-primary/85 px-6 py-4">{tour.name}</span>
+        <div class="absolute bottom-[13vw] left-1/2 top-[35%] -translate-x-1/2 -translate-y-1/2 w-full px-4">
+            <h1 class="text-3xl md:text-5xl text-center text-white uppercase font-light w-full md:w-[70%] mx-auto">
+                <span class="inline-block bg-gradient-to-br from-primary/85 to-primary/85 px-4 md:px-6 py-2 md:py-4"
+                    >{tour.name}</span
+                >
             </h1>
-            <div class="mt-12 flex items-center justify-center text-gray-100">
-                <div class="flex items-center text-2xl font-bold uppercase">
-                    <svg class="mr-3 h-8 w-8 drop-shadow-lg">
+            <div
+                class="mt-8 md:mt-12 flex flex-col md:flex-row items-center justify-center text-gray-100 gap-4 md:gap-0"
+            >
+                <div class="flex items-center text-xl md:text-2xl font-bold uppercase">
+                    <svg class="mr-3 h-6 w-6 md:h-8 md:w-8 drop-shadow-lg">
                         <use xlink:href="/img/icons.svg#icon-clock"></use>
                     </svg>
                     <span>{tour.duration} days</span>
                 </div>
-                <div class="ml-16 flex items-center text-2xl font-bold uppercase">
-                    <svg class="mr-3 h-8 w-8 drop-shadow-lg">
+                <div class="md:ml-16 flex items-center text-xl md:text-2xl font-bold uppercase">
+                    <svg class="mr-3 h-6 w-6 md:h-8 md:w-8 drop-shadow-lg">
                         <use xlink:href="/img/icons.svg#icon-map-pin"></use>
                     </svg>
                     <span>{tour?.startLocation?.description}</span>
@@ -85,21 +89,21 @@ export const prerender = false;
         </div>
     </section>
     <section class="mt-[-9vw] bg-gray-50 h-full relative z-30 clip-path-tour">
-        <div class="flex w-full">
-            <div class="flex-1 bg-zinc-100 py-56 h-full relative content-center min-h-100vh">
+        <div class="flex flex-col md:flex-row w-full">
+            <div class="flex-1 bg-zinc-100 py-20 md:py-56 h-full relative content-center min-h-100vh">
                 <div class="flex flex-col h-full text-center items-center justify-center">
-                    <div class="mx-8">
+                    <div class="mx-4 md:mx-8">
                         <h2
-                            class="mb-14 text-3xl font-bold uppercase text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary"
+                            class="mb-8 md:mb-14 text-2xl md:text-3xl font-bold uppercase text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary"
                         >
                             Quick facts
                         </h2>
-                        <div class="flex items-center text-2xl mb-9">
-                            <svg class="mr-5 h-9 w-9 text-primary">
+                        <div class="flex items-center text-lg md:text-2xl mb-6 md:mb-9">
+                            <svg class="mr-3 md:mr-5 h-7 w-7 md:h-9 md:w-9 text-primary">
                                 <use xlink:href="/img/icons.svg#icon-calendar"></use>
                             </svg>
-                            <span class="mr-9 font-bold uppercase text-lg">Next date</span>
-                            <span class="capitalize">
+                            <span class="mr-4 md:mr-9 font-bold uppercase text-base md:text-lg">Next date</span>
+                            <span class="capitalize text-sm md:text-base">
                                 {
                                     new Date(tour?.startDates[0]).toLocaleString('en-us', {
                                         month: 'long',
@@ -108,65 +112,71 @@ export const prerender = false;
                                 }
                             </span>
                         </div>
-                        <div class="flex items-center text-2xl mb-9">
-                            <svg class="mr-5 h-9 w-9 text-primary">
+                        <div class="flex items-center text-lg md:text-2xl mb-6 md:mb-9">
+                            <svg class="mr-3 md:mr-5 h-7 w-7 md:h-9 md:w-9 text-primary">
                                 <use xlink:href="/img/icons.svg#icon-trending-up"></use>
                             </svg>
-                            <span class="mr-9 font-bold uppercase text-lg">Difficulty</span>
-                            <span class="capitalize">{tour?.difficulty}</span>
+                            <span class="mr-4 md:mr-9 font-bold uppercase text-base md:text-lg">Difficulty</span>
+                            <span class="capitalize text-sm md:text-base">{tour?.difficulty}</span>
                         </div>
-                        <div class="flex items-center text-2xl mb-9">
-                            <svg class="mr-5 h-9 w-9 text-primary">
+                        <div class="flex items-center text-lg md:text-2xl mb-6 md:mb-9">
+                            <svg class="mr-3 md:mr-5 h-7 w-7 md:h-9 md:w-9 text-primary">
                                 <use xlink:href="/img/icons.svg#icon-user"></use>
                             </svg>
-                            <span class="mr-9 font-bold uppercase text-lg">Participants</span>
-                            <span class="capitalize">{tour?.maxGroupSize} people</span>
+                            <span class="mr-4 md:mr-9 font-bold uppercase text-base md:text-lg">Participants</span>
+                            <span class="capitalize text-sm md:text-base">{tour?.maxGroupSize} people</span>
                         </div>
-                        <div class="flex items-center text-2xl mb-9">
-                            <svg class="mr-5 h-9 w-9 text-primary">
+                        <div class="flex items-center text-lg md:text-2xl mb-6 md:mb-9">
+                            <svg class="mr-3 md:mr-5 h-7 w-7 md:h-9 md:w-9 text-primary">
                                 <use xlink:href="/img/icons.svg#icon-star"></use>
                             </svg>
-                            <span class="mr-9 font-bold uppercase text-lg">Rating</span>
-                            <span class="capitalize">{tour?.ratingsAverage} / 5</span>
+                            <span class="mr-4 md:mr-9 font-bold uppercase text-base md:text-lg">Rating</span>
+                            <span class="capitalize text-sm md:text-base">{tour?.ratingsAverage} / 5</span>
                         </div>
                     </div>
 
-                    <div class="mt-auto mx-8">
+                    <div class="mt-8 md:mt-auto mx-4 md:mx-8">
                         <h2
-                            class="mb-14 text-3xl font-bold uppercase text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary"
+                            class="mb-8 md:mb-14 text-2xl md:text-3xl font-bold uppercase text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary"
                         >
                             Your tour guides
                         </h2>
                         {
                             tour?.guides.map((guide: any) => (
-                                <div class="flex items-center text-2xl mb-9">
+                                <div class="flex items-center text-lg md:text-2xl mb-6 md:mb-9">
                                     <img
-                                        class="mr-5 h-14 w-14 rounded-full"
+                                        class="mr-3 md:mr-5 h-10 w-10 md:h-14 md:w-14 rounded-full"
                                         src={`${getBackendUrl()}/img/users/${guide.photo}`}
                                         alt={guide.name}
                                     />
-                                    <span class="mr-9 font-bold uppercase text-lg">{guide.role}</span>
-                                    <span class="capitalize">{guide.name}</span>
+                                    <span class="mr-4 md:mr-9 font-bold uppercase text-base md:text-lg">
+                                        {guide.role}
+                                    </span>
+                                    <span class="capitalize text-sm md:text-base">{guide.name}</span>
                                 </div>
                             ))
                         }
                     </div>
                 </div>
             </div>
-            <div class="flex-1 bg-zinc-100 py-32 relative content-center min-h-100vh">
-                <div class="relative content-center mx-8">
+            <div class="flex-1 bg-zinc-100 py-16 md:py-32 relative content-center min-h-100vh">
+                <div class="relative content-center mx-4 md:mx-8">
                     <h2
-                        class="mb-14 text-3xl font-bold uppercase text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary"
+                        class="mb-8 md:mb-14 text-2xl md:text-3xl font-bold uppercase text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary"
                     >
                         About {tour.name} tour
                     </h2>
-                    {tour?.description.split('\n').map((paragraph: any) => <p class="text-2xl mb-8">{paragraph}</p>)}
+                    {
+                        tour?.description
+                            .split('\n')
+                            .map((paragraph: any) => <p class="text-lg md:text-2xl mb-6 md:mb-8">{paragraph}</p>)
+                    }
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="flex clip-path-tour mt-[-9vw] relative z-20">
+    <section class="flex flex-col md:flex-row clip-path-tour mt-[-9vw] relative z-20">
         {
             tour?.images.map((image: any, i: number) => (
                 <div class="w-full">
@@ -180,7 +190,7 @@ export const prerender = false;
         }
     </section>
 
-    <section class="relative h-[35rem] mt-[-9vw] z-10 clip-path-tour">
+    <section class="relative h-[25rem] md:h-[35rem] mt-[-9vw] z-10 clip-path-tour">
         <LeafletMap
             latitude={tour?.startLocation?.coordinates[1] || 0}
             longitude={tour?.startLocation?.coordinates[0] || 0}
@@ -192,94 +202,99 @@ export const prerender = false;
         />
     </section>
 
-    <section class="mt-[-9vw] py-32 relative bg-gradient-to-br from-primary to-primary/85 clip-path-tour">
-        <div class="max-w-[calc(100%-12rem)] mx-auto py-12">
-            <h2
-                class="mb-14 text-3xl font-bold uppercase text-transparent bg-clip-text bg-gradient-to-r from-white to-white text-center"
-            >
-                Reviews
-            </h2>
-            <div class="flex overflow-x-auto gap-12 py-8 w-full">
-                {
-                    tour?.reviews?.map((review: any) => (
-                        <div class="min-w-[30rem] p-12 bg-gray-50 rounded-lg shadow-xl snap-center flex flex-col items-center">
-                            <div class="flex items-center mb-8">
-                                <img
-                                    class="h-16 w-16 rounded-full mr-6"
-                                    src={`${getBackendUrl()}/img/users/${review.user.photo}`}
-                                    alt={review.user.name}
-                                />
-                                <h6 class="text-lg font-bold uppercase">{review.user.name}</h6>
+    {
+        tour?.reviews?.length > 0 && (
+            <section class="mt-[-9vw] py-16 md:py-32 relative bg-gradient-to-br from-primary to-primary/85 clip-path-tour">
+                <div class="max-w-[calc(100%-2rem)] md:max-w-[calc(100%-12rem)] mx-auto py-8 md:py-12">
+                    <h2 class="mb-8 md:mb-14 text-2xl md:text-3xl font-bold uppercase text-transparent bg-clip-text bg-gradient-to-r from-white to-white text-center">
+                        Reviews
+                    </h2>
+                    <div class="flex overflow-x-auto gap-6 md:gap-12 py-4 md:py-8 w-full">
+                        {tour?.reviews?.map((review: any) => (
+                            <div class="min-w-[20rem] md:min-w-[30rem] p-6 md:p-12 bg-gray-50 rounded-lg shadow-xl snap-center flex flex-col items-center">
+                                <div class="flex items-center mb-6 md:mb-8">
+                                    <img
+                                        class="h-12 w-12 md:h-16 md:w-16 rounded-full mr-4 md:mr-6"
+                                        src={`${getBackendUrl()}/img/users/${review.user.photo}`}
+                                        alt={review.user.name}
+                                    />
+                                    <h6 class="text-base md:text-lg font-bold uppercase">{review.user.name}</h6>
+                                </div>
+                                <p class="text-gray-600 mb-6 md:mb-8 text-base md:text-lg italic">{review.review}</p>
+                                <div class="flex mt-auto">
+                                    {[1, 2, 3, 4, 5].map((star) => (
+                                        <svg
+                                            class={`h-6 w-6 md:h-8 md:w-8 ${review.rating >= star ? 'text-yellow-400' : 'text-gray-300'}`}
+                                        >
+                                            <use xlink:href="/img/icons.svg#icon-star" fill="currentColor" />
+                                        </svg>
+                                    ))}
+                                </div>
                             </div>
-                            <p class="text-gray-600 mb-8 text-lg italic">{review.review}</p>
-                            <div class="flex mt-auto">
-                                {[1, 2, 3, 4, 5].map((star) => (
-                                    <svg
-                                        class={`h-8 w-8 ${review.rating >= star ? 'text-yellow-400' : 'text-gray-300'}`}
-                                    >
-                                        <use xlink:href="/img/icons.svg#icon-star" fill="currentColor" />
-                                    </svg>
-                                ))}
-                            </div>
-                        </div>
-                    ))
-                }
-            </div>
-        </div>
-    </section>
+                        ))}
+                    </div>
+                </div>
+            </section>
+        )
+    }
 
-    <section class="mt-[-9vw] bg-gray-100 px-12 pb-44 pt-[calc(15rem+9vw)]">
-        <div class="relative max-w-[60rem] mx-auto overflow-hidden bg-white p-24 rounded-3xl shadow-2xl">
+    <section class="mt-[-9vw] bg-gray-100 px-4 md:px-12 pb-20 md:pb-44 pt-[calc(10rem+9vw)] md:pt-[calc(15rem+9vw)]">
+        <div
+            class="relative max-w-[calc(100%-2rem)] md:max-w-[60rem] mx-auto overflow-hidden bg-white p-8 md:p-24 rounded-3xl shadow-2xl flex flex-col items-center md:block md:grid md:grid-cols-[1fr_auto] md:items-center"
+        >
             <div
-                class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-[50%] z-10 h-40 w-40 rounded-full bg-gradient-to-br from-primary to-primary p-8 flex items-center justify-center shadow-lg"
+                class="absolute md:left-0 md:top-1/2 md:-translate-y-1/2 md:-translate-x-[50%] left-1/2 top-0 -translate-x-1/2 z-10 h-20 w-20 md:h-40 md:w-40 rounded-full bg-gradient-to-br from-primary to-primary p-4 md:p-8 flex items-center justify-center shadow-lg"
             >
                 <img src={`/img/logo-white.png`} alt="Natours logo" class="w-full" />
             </div>
-            <img
-                class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-[10%] scale-97 z-[9] h-40 w-40 rounded-full shadow-lg"
-                src={`${getBackendUrl()}/img/tours/${tour?.images[1]}`}
-                alt="Tour Picture"
-            />
-            <img
-                class="absolute left-0 top-1/2 -translate-y-1/2 translate-x-[15%] scale-94 z-8 h-40 w-40 rounded-full shadow-lg"
-                src={`${getBackendUrl()}/img/tours/${tour?.images[2]}`}
-                alt="Tour Picture"
-            />
-            <div class="grid grid-cols-[1fr_auto] grid-rows-[auto_auto] gap-3 items-center">
-                <div class="col-span-2 ml-24">
-                    <h2
-                        class="text-2xl font-bold uppercase text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary"
-                    >
-                        What are you waiting for?
-                    </h2>
-                    <p class="text-lg">
-                        {tour?.duration} days. 1 adventure. Infinite memories. Make it yours today!
-                    </p>
+            <div class="flex gap-2 md:block mt-20 md:mt-0 mb-4 md:mb-0 justify-center items-center w-full md:w-auto">
+                <img
+                    class="h-20 w-20 md:absolute md:left-0 md:top-1/2 md:-translate-y-1/2 md:-translate-x-[10%] md:scale-97 z-[9] rounded-full shadow-lg"
+                    src={`${getBackendUrl()}/img/tours/${tour?.images[1]}`}
+                    alt="Tour Picture"
+                />
+                <img
+                    class="h-20 w-20 md:absolute md:left-0 md:top-1/2 md:-translate-y-1/2 md:translate-x-[15%] md:scale-94 z-8 rounded-full shadow-lg"
+                    src={`${getBackendUrl()}/img/tours/${tour?.images[2]}`}
+                    alt="Tour Picture"
+                />
+            </div>
+            <div
+                class="text-center md:text-left w-full md:ml-24 flex flex-col items-center md:items-start justify-center"
+            >
+                <h2
+                    class="text-xl md:text-2xl font-bold uppercase text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary mb-2 md:mb-4"
+                >
+                    What are you waiting for?
+                </h2>
+                <p class="text-base md:text-lg mb-4 md:mb-8">
+                    {tour?.duration} days. 1 adventure. Infinite memories. Make it yours today!
+                </p>
+                <div class="w-full flex justify-center md:justify-start">
+                    {
+                        user && tour?.isBooked ? (
+                            <button class="rounded-full bg-primary px-8 md:px-12 py-4 md:py-6 text-base md:text-xl font-medium text-white uppercase shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer w-full md:w-auto">
+                                You Already Booked
+                            </button>
+                        ) : user ? (
+                            <button
+                                class="rounded-full bg-primary px-8 md:px-12 py-4 md:py-6 text-base md:text-xl font-medium text-white uppercase shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer w-full md:w-auto"
+                                id="book-tour"
+                                data-tour-id={tour?.id}
+                            >
+                                Book tour now!
+                            </button>
+                        ) : (
+                            <button
+                                class="rounded-full bg-primary px-8 md:px-12 py-4 md:py-6 text-base md:text-xl font-medium text-white uppercase shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer w-full md:w-auto"
+                                data-tour-id={tour?.id}
+                                onclick={`window.location.href = '/login';`}
+                            >
+                                Login to book tour
+                            </button>
+                        )
+                    }
                 </div>
-
-                {
-                    user && tour?.isBooked ? (
-                        <button class="col-3 rounded-full bg-primary px-12 py-6 text-xl font-medium text-white uppercase shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer">
-                            You Already Booked
-                        </button>
-                    ) : user ? (
-                        <button
-                            class="col-3 rounded-full bg-primary px-12 py-6 text-xl font-medium text-white uppercase shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer"
-                            id="book-tour"
-                            data-tour-id={tour?.id}
-                        >
-                            Book tour now!
-                        </button>
-                    ) : (
-                        <button
-                            class="col-3 rounded-full bg-primary px-12 py-6 text-xl font-medium text-white uppercase shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer"
-                            data-tour-id={tour?.id}
-                            onclick={`window.location.href = '/login';`}
-                        >
-                            Login to book tour
-                        </button>
-                    )
-                }
             </div>
         </div>
     </section>

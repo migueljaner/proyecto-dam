@@ -1,0 +1,208 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { server } from '../actions';
+---
+
+<script>
+    import { actions } from 'astro:actions';
+    import { generateToast } from '../utils/toast';
+
+    const createTour = async (e: Event) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+
+        const { data, error } = await actions.createTour({
+            name: formData.get('name') as string,
+            duration: Number(formData.get('duration')),
+            maxGroupSize: Number(formData.get('maxGroupSize')),
+            difficulty: formData.get('difficulty') as 'easy' | 'medium' | 'difficult',
+            price: Number(formData.get('price')),
+            priceDiscount: Number(formData.get('priceDiscount')) || undefined,
+            summary: formData.get('summary') as string,
+            description: formData.get('description') as string,
+            startDates: formData.get('startDates') as string,
+            startLocation: {
+                address: formData.get('startLocation.address') as string,
+                description: formData.get('startLocation.description') as string,
+            },
+            guides: formData.get('guides') as string,
+        });
+
+        if (data?.success) {
+            generateToast('Tour created successfully!', 'success');
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 1500);
+        } else {
+            generateToast(data?.message || error || 'Something went wrong', 'error');
+        }
+    };
+
+    const form = document.querySelector('#createTourForm') as HTMLFormElement;
+    form.addEventListener('submit', createTour);
+</script>
+
+<Layout title="Fita a Fita | Create a tour">
+    <main class="py-16 px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
+                <h2 class="text-2xl font-bold mb-6 text-center">Create a new tour</h2>
+                <form method="POST" id="createTourForm" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700" for="name">Tour Name</label>
+                            <input
+                                type="text"
+                                name="name"
+                                id="name"
+                                required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                            />
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700" for="duration">Duration (days)</label
+                            >
+                            <input
+                                type="number"
+                                name="duration"
+                                id="duration"
+                                required
+                                min="1"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                            />
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700" for="maxGroupSize"
+                                >Max Group Size</label
+                            >
+                            <input
+                                type="number"
+                                name="maxGroupSize"
+                                id="maxGroupSize"
+                                required
+                                min="1"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                            />
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700" for="difficulty">Difficulty</label>
+                            <select
+                                name="difficulty"
+                                id="difficulty"
+                                required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                            >
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="difficult">Difficult</option>
+                            </select>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700" for="price">Price</label>
+                            <input
+                                type="number"
+                                name="price"
+                                id="price"
+                                required
+                                min="0"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                            />
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700" for="priceDiscount"
+                                >Price Discount</label
+                            >
+                            <input
+                                type="number"
+                                name="priceDiscount"
+                                id="priceDiscount"
+                                min="0"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700" for="summary">Summary</label>
+                        <textarea
+                            name="summary"
+                            id="summary"
+                            required
+                            rows="3"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                        ></textarea>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700" for="description">Description</label>
+                        <textarea
+                            name="description"
+                            id="description"
+                            required
+                            rows="5"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                        ></textarea>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700" for="startDates"
+                            >Start Dates (one per line)</label
+                        >
+                        <textarea
+                            name="startDates"
+                            id="startDates"
+                            required
+                            rows="3"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                            placeholder="2024-05-15T08:00:00Z"></textarea>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">Start Location</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input
+                                type="text"
+                                name="startLocation.address"
+                                placeholder="Address"
+                                required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                            />
+                            <input
+                                type="text"
+                                name="startLocation.description"
+                                placeholder="Description"
+                                required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700" for="guides"
+                            >Guide IDs (one per line)</label
+                        >
+                        <textarea
+                            name="guides"
+                            id="guides"
+                            required
+                            rows="3"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                        ></textarea>
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/80 transition-colors duration-200"
+                    >
+                        Create Tour
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+</Layout>

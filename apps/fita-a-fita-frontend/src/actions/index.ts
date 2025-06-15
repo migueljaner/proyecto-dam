@@ -266,4 +266,61 @@ export const server = {
             }
         },
     }),
+    createTour: defineAction({
+        input: z.object({
+            name: z.string(),
+            duration: z.number(),
+            maxGroupSize: z.number(),
+            difficulty: z.enum(['easy', 'medium', 'difficult']),
+            price: z.number(),
+            priceDiscount: z.number().optional(),
+            summary: z.string(),
+            description: z.string(),
+            startDates: z.string(),
+            startLocation: z.object({
+                address: z.string(),
+                description: z.string(),
+            }),
+            guides: z.string(),
+        }),
+        handler: async (input, context) => {
+            try {
+                // Split startDates and guides into arrays
+                const startDates = input.startDates.split('\n').filter((date) => date.trim());
+                const guides = input.guides.split('\n').filter((guide) => guide.trim());
+
+                const tourData = {
+                    ...input,
+                    startDates,
+                    guides,
+                    imageCover: 'tour-2-cover.jpg',
+                    images: ['tour-2-1.jpg', 'tour-2-2.jpg', 'tour-2-3.jpg'],
+                    startLocation: {
+                        type: 'Point',
+                        coordinates: [-73.935242, 40.73061],
+                        address: input.startLocation.address,
+                        description: input.startLocation.description,
+                    },
+                };
+
+                const res = await fetch(getBackendUrl() + '/api/v1/tours', {
+                    method: 'POST',
+                    body: JSON.stringify(tourData),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Cookie: 'jwt=' + (context.cookies.get('jwt')?.value || ''),
+                    },
+                });
+
+                const data = await res.json();
+
+                if (data.status === 'success') {
+                    return { success: true, data: data.data };
+                }
+                return { success: false, message: data.message };
+            } catch (error) {
+                return { success: false, message: 'Something went wrong' };
+            }
+        },
+    }),
 };

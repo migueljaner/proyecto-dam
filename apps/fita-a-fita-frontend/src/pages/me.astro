@@ -96,9 +96,9 @@ export const prerender = false;
 
 <Layout>
     <main class="bg-gray-50 min-h-screen py-12">
-        <div class="max-w-5xl mx-auto bg-white rounded shadow-xl flex flex-col md:flex-row overflow-hidden">
+        <div class="max-w-5xl mx-auto bg-white rounded shadow-xl flex flex-col lg:flex-row overflow-hidden">
             {/* Sidebar */}
-            <nav class="flex-shrink-0 w-full md:w-[32rem] bg-gradient-to-br from-primary to-primary/60 py-16 px-0">
+            <nav class="flex-shrink-0 w-full lg:w-[32rem] bg-gradient-to-br from-primary to-primary/60 py-16 px-0">
                 <ul class="side-nav">
                     <NavItem href="/me" text="Settings" icon="settings" />
                     <NavItem href="/my-tours" text="My bookings" icon="briefcase" />
@@ -110,6 +110,7 @@ export const prerender = false;
                         <div class="admin-nav mt-14">
                             <ul class="side-nav">
                                 <NavItem href="/my-tours" text="Manage tours" icon="map" />
+                                <NavItem href="/create-tour" text="Create tour" icon="map" />
                                 <NavItem href="#" text="Manage users" icon="users" />
                                 <NavItem href="#" text="Manage reviews" icon="star" />
                                 <NavItem href="#" text="Manage bookings" icon="briefcase" />
