@@ -37,7 +37,7 @@ export const getCheckoutSession = catchAsync(async (req, res, next) => {
 
   const session = await getStripe().checkout.sessions.create({
     payment_method_types: ["card"],
-    success_url: `${req.protocol}://localhost:4321/my-tours`,
+    success_url: `${req.protocol}://localhost:4321/?tour=${tour._id}&user=${req.user.id}&price=${tour.price}`,
     cancel_url: `${req.protocol}://localhost:4321/tour/${tour.slug}`,
     customer_email: req.user.email,
     client_reference_id: req.params.tourId,

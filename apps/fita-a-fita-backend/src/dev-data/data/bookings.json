@@ -22,86 +22,23 @@
   },
   {
     "tour": "5c88fa8cf4afda39709c2961",
-    "user": "5c8a1ec62f8fb814b56fa183",
+    "user": "5c8a1f292f8fb814b56fa184",
     "price": 1497,
     "createdAt": "2024-03-11T14:45:00.000Z",
     "paid": true
   },
   {
     "tour": "5c88fa8cf4afda39709c295d",
-    "user": "5c8a1f292f8fb814b56fa184",
+    "user": "5c8a1f4e2f8fb814b56fa185",
     "price": 1197,
     "createdAt": "2024-03-10T11:20:00.000Z",
     "paid": true
   },
   {
     "tour": "5c88fa8cf4afda39709c2966",
-    "user": "5c8a1f4e2f8fb814b56fa185",
+    "user": "5c8a21d02f8fb814b56fa189",
     "price": 2997,
     "createdAt": "2024-03-09T16:00:00.000Z",
-    "paid": true
-  },
-  {
-    "tour": "5c88fa8cf4afda39709c2970",
-    "user": "5c8a201e2f8fb814b56fa186",
-    "price": 2997,
-    "createdAt": "2024-03-08T13:30:00.000Z",
-    "paid": true
-  },
-  {
-    "tour": "5c88fa8cf4afda39709c2974",
-    "user": "5c8a20d32f8fb814b56fa187",
-    "price": 1497,
-    "createdAt": "2024-03-07T10:15:00.000Z",
-    "paid": true
-  },
-  {
-    "tour": "5c88fa8cf4afda39709c296c",
-    "user": "5c8a211f2f8fb814b56fa188",
-    "price": 1997,
-    "createdAt": "2024-03-06T15:45:00.000Z",
-    "paid": true
-  },
-  {
-    "tour": "5c88fa8cf4afda39709c2955",
-    "user": "5c8a21d02f8fb814b56fa189",
-    "price": 497,
-    "createdAt": "2024-03-05T09:30:00.000Z",
-    "paid": true
-  },
-  {
-    "tour": "5c88fa8cf4afda39709c2951",
-    "user": "5c8a21f22f8fb814b56fa18a",
-    "price": 397,
-    "createdAt": "2024-03-04T14:00:00.000Z",
-    "paid": true
-  },
-  {
-    "tour": "5c88fa8cf4afda39709c295a",
-    "user": "5c8a22c62f8fb814b56fa18b",
-    "price": 997,
-    "createdAt": "2024-03-03T11:45:00.000Z",
-    "paid": true
-  },
-  {
-    "tour": "5c88fa8cf4afda39709c2961",
-    "user": "5c8a23412f8fb814b56fa18c",
-    "price": 1497,
-    "createdAt": "2024-03-02T16:30:00.000Z",
-    "paid": true
-  },
-  {
-    "tour": "5c88fa8cf4afda39709c295d",
-    "user": "5c8a23c82f8fb814b56fa18d",
-    "price": 1197,
-    "createdAt": "2024-03-01T13:15:00.000Z",
-    "paid": true
-  },
-  {
-    "tour": "5c88fa8cf4afda39709c2966",
-    "user": "5c8a23de2f8fb814b56fa18e",
-    "price": 2997,
-    "createdAt": "2024-02-29T10:00:00.000Z",
     "paid": true
   }
 ]

@@ -6,6 +6,7 @@ interface Props {
 import { getBackendUrl } from '../utils/env';
 
 const { url } = Astro.props as Props;
+
 const jwt = await Astro.cookies.get('jwt')?.value || '';
 
 const tours = await fetch(url, {
@@ -121,12 +122,24 @@ const difficulties = ['easy', 'medium', 'difficult'];
                         <span class="text-gray-500"> rating ({tour.ratingsQuantity})</span>
                     </p>
                 </div>
-                <a 
-                    href={`/tour/${tour.slug}`}
+                {/* If the user is logged in, show the details button */}
+                {jwt && (
+                    <a 
+                        href={`/tour/${tour.slug}`}
                         class="inline-block bg-primary text-white px-6 py-2 rounded-full hover:bg-primary/80 transition-colors"
-                >
-                    Details
-                </a>
+                    >
+                        Details
+                    </a>
+                )}
+                {/* If the user is not logged in, show the login button */}
+                {!jwt && (
+                    <a 
+                        href={`/login`}
+                        class="inline-block bg-primary text-white px-6 py-2 rounded-full hover:bg-primary/80 transition-colors"
+                    >
+                        Login
+                    </a>
+                )}
             </div>
         </div>
       </div>

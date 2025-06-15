@@ -19,7 +19,7 @@
     "duration": 7,
     "maxGroupSize": 15,
     "difficulty": "easy",
-    "guides": ["5c8a22c62f8fb814b56fa18b", "5c8a1f4e2f8fb814b56fa185"],
+    "guides": ["5c8a1f4e2f8fb814b56fa185", "5c8a1f292f8fb814b56fa184"],
     "price": 497,
     "summary": "Discover the magical underground world of Mallorca's famous caves",
     "description": "Experience the breathtaking beauty of the Coves del Drach, one of Mallorca's most famous natural attractions. This tour takes you through stunning limestone caves, crystal-clear underground lakes, and includes a classical music concert on a boat.\nLearn about the geological formation of the caves, explore the impressive stalactites and stalagmites, and enjoy the unique atmosphere of this natural wonder.",
@@ -68,11 +68,7 @@
     "duration": 5,
     "maxGroupSize": 25,
     "difficulty": "medium",
-    "guides": [
-      "5c8a21d02f8fb814b56fa189",
-      "5c8a201e2f8fb814b56fa186",
-      "5c8a1f292f8fb814b56fa184"
-    ],
+    "guides": ["5c8a21d02f8fb814b56fa189", "5c8a1f292f8fb814b56fa184"],
     "price": 397,
     "summary": "Explore the UNESCO World Heritage Site of Serra de Tramuntana",
     "description": "Discover the stunning Serra de Tramuntana mountain range, a UNESCO World Heritage Site. This tour takes you through ancient stone paths, olive groves, and traditional mountain villages.\nVisit historic monasteries, learn about traditional farming methods, and enjoy breathtaking views of the Mediterranean Sea from the island's highest peaks.",
@@ -121,11 +117,7 @@
     "duration": 4,
     "maxGroupSize": 10,
     "difficulty": "easy",
-    "guides": [
-      "5c8a21d02f8fb814b56fa189",
-      "5c8a23412f8fb814b56fa18c",
-      "5c8a1f4e2f8fb814b56fa185"
-    ],
+    "guides": ["5c8a21d02f8fb814b56fa189", "5c8a1f4e2f8fb814b56fa185"],
     "price": 997,
     "summary": "Discover Mallorca's rich Roman history and archaeological sites",
     "description": "Explore the fascinating Roman ruins of Pollentia, one of the most important archaeological sites in Mallorca. Learn about the island's Roman past, visit the ancient theater, and discover the remains of the Roman city.\nExperience the blend of Roman and modern Mallorcan culture, and enjoy the beautiful surroundings of Alcúdia's old town.",
@@ -167,11 +159,7 @@
     "duration": 10,
     "maxGroupSize": 15,
     "difficulty": "easy",
-    "guides": [
-      "5c8a21f22f8fb814b56fa18a",
-      "5c8a23412f8fb814b56fa18c",
-      "5c8a201e2f8fb814b56fa186"
-    ],
+    "guides": ["5c8a21d02f8fb814b56fa189", "5c8a1f4e2f8fb814b56fa185"],
     "price": 1497,
     "summary": "Visit the famous Majorica pearl factory and learn about pearl making",
     "description": "Discover the art of pearl making at the Majorica factory in Manacor. Learn about the history of pearl production in Mallorca, see the manufacturing process, and shop for authentic Majorica pearls.\nExperience the blend of traditional craftsmanship and modern technology, and take home a piece of Mallorca's famous pearl heritage.",
@@ -220,7 +208,7 @@
     "duration": 9,
     "maxGroupSize": 20,
     "difficulty": "easy",
-    "guides": ["5c8a22c62f8fb814b56fa18b", "5c8a201e2f8fb814b56fa186"],
+    "guides": ["5c8a1f4e2f8fb814b56fa185", "5c8a1f292f8fb814b56fa184"],
     "price": 1197,
     "summary": "Explore Palma's historic center and its magnificent cathedral",
     "description": "Discover the rich history and architecture of Palma de Mallorca. Visit the stunning La Seu Cathedral, explore the Arab Baths, and stroll through the charming streets of the old town.\nLearn about the city's diverse cultural heritage, from Roman times to the present day, and enjoy the vibrant atmosphere of Palma's historic center.",
@@ -270,7 +258,7 @@
     "maxGroupSize": 8,
     "difficulty": "medium",
     "guides": [
-      "5c8a21f22f8fb814b56fa18a",
+      "5c8a21d02f8fb814b56fa189",
       "5c8a1f292f8fb814b56fa184",
       "5c8a1f4e2f8fb814b56fa185"
     ],
@@ -336,14 +324,14 @@
         "day": 1
       },
       {
-        "_id": "5c88fa8cf4afda39709c2972",
+        "_id": "5c8afa8cf4afda39709c2972",
         "description": "Bodega Son Vives",
         "type": "Point",
         "coordinates": [2.83333, 39.68333],
         "day": 3
       },
       {
-        "_id": "5c88fa8cf4afda39709c2971",
+        "_id": "5c8afa8cf4afda39709c2971",
         "description": "Cooperativa Agrícola de Binissalem",
         "type": "Point",
         "coordinates": [2.83333, 39.68333],
@@ -371,11 +359,7 @@
     "duration": 3,
     "maxGroupSize": 12,
     "difficulty": "easy",
-    "guides": [
-      "5c8a21f22f8fb814b56fa18a",
-      "5c8a201e2f8fb814b56fa186",
-      "5c8a23412f8fb814b56fa18c"
-    ],
+    "guides": ["5c8a21d02f8fb814b56fa189", "5c8a1f4e2f8fb814b56fa185"],
     "price": 1497,
     "summary": "Ride the historic wooden train from Palma to Sóller",
     "description": "Experience a journey back in time on the historic wooden train from Palma to Sóller. Enjoy the scenic route through orange groves and mountains, and discover the charming town of Sóller.\nVisit the beautiful Port de Sóller, enjoy fresh seafood, and experience the authentic atmosphere of this traditional Mallorcan town.",
@@ -410,7 +394,7 @@
     "duration": 5,
     "maxGroupSize": 8,
     "difficulty": "easy",
-    "guides": ["5c8a22c62f8fb814b56fa18b", "5c8a23412f8fb814b56fa18c"],
+    "guides": ["5c8a1f4e2f8fb814b56fa185", "5c8a1f292f8fb814b56fa184"],
     "price": 1997,
     "summary": "Follow in the footsteps of Chopin and George Sand in Valldemossa",
     "description": "Discover the romantic story of Chopin and George Sand in Valldemossa. Visit the Royal Carthusian Monastery where they stayed, see Chopin's piano, and learn about their time in Mallorca.\nExperience the charming atmosphere of Valldemossa, enjoy traditional Mallorcan cuisine, and immerse yourself in the island's cultural heritage.",

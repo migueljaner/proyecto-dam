@@ -2,10 +2,23 @@
 import Tours from '../components/Tours.astro';
 import Layout from '../layouts/Layout.astro';
 import { getBackendUrl } from '../utils/env';
+
+const params = Astro.url.searchParams;
+const tour = params.get('tour');
+const user = params.get('user');
+const price = params.get('price');
+
+let url = getBackendUrl() + '/';
+
+if (tour && user && price) {
+    url = url + '?tour=' + tour + '&user=' + user + '&price=' + price;
+}
+
+export const prerender = false;
 ---
 
 <Layout>
     <main class="py-16 px-8">
-        <Tours server:defer url={getBackendUrl() + '/'} />
+        <Tours server:defer url={url} />
     </main>
 </Layout>

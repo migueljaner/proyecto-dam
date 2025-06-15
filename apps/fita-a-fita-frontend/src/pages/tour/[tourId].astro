@@ -34,8 +34,6 @@ export const prerender = false;
             // 1) Get checkout session from API
             const session = await actions.bookTour({ tourId: tourId });
 
-            console.log('session', session);
-
             // 2) Create checkout form + charge credit card
             await stripe!.redirectToCheckout({
                 sessionId: session.data?.data?.id,

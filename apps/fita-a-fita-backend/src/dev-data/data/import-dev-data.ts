@@ -27,8 +27,8 @@ const bookings = JSON.parse(
 
 const importData = async () => {
   try {
-    await Tour.create(tours);
     await Review.create(reviews);
+    await Tour.create(tours);
     // NOTE: We have to comment the pre save middleware to avoid the password hashing
     await User.create(users, { validateBeforeSave: false });
     await Booking.create(bookings);
