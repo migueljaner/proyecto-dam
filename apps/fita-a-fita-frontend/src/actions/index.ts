@@ -241,4 +241,29 @@ export const server = {
             }
         },
     }),
+    deleteUser: defineAction({
+        handler: async (input, context) => {
+            try {
+                const res = await fetch(getBackendUrl() + '/api/v1/users/deleteMe', {
+                    method: 'DELETE',
+                    headers: {
+                        Cookie: 'jwt=' + (context.cookies.get('jwt')?.value || ''),
+                    },
+                });
+
+                console.log(res);
+                const data = await res.json();
+                console.log(data);
+                if (data.status === 'success') {
+                    context.cookies.delete('jwt', { path: '/' });
+                    context.session?.set('user', null);
+                    return { success: true, message: 'Account deleted successfully' };
+                }
+                return { success: false, message: data.message };
+            } catch (error) {
+                console.log(error);
+                return { success: false, message: 'Something went wrong' };
+            }
+        },
+    }),
 };

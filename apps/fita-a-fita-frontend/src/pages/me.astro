@@ -54,11 +54,44 @@ export const prerender = false;
         }
     };
 
+    const deleteUser = async () => {
+        if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+            const { data, error } = await actions.deleteUser();
+
+            if (data?.success) {
+                generateToast('Account deleted successfully', 'success');
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 1500);
+            } else {
+                generateToast('Something went wrong', 'error');
+            }
+        }
+    };
+
     const dataForm = document.querySelector('#dataForm') as HTMLFormElement;
     const passwordForm = document.querySelector('#passwordForm') as HTMLFormElement;
+    const deleteUserBtn = document.querySelector('#deleteUserBtn') as HTMLButtonElement;
 
     dataForm.addEventListener('submit', updateUserData);
     passwordForm.addEventListener('submit', updatePassword);
+    deleteUserBtn.addEventListener('click', deleteUser);
+
+    const photoInput = document.querySelector('#photo') as HTMLInputElement;
+    const photoPreview = document.querySelector('#photoPreview') as HTMLImageElement;
+
+    photoInput.addEventListener('change', (e) => {
+        const file = (e.target as HTMLInputElement).files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                if (photoPreview) {
+                    photoPreview.src = e.target?.result as string;
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 </script>
 
 <Layout>
@@ -73,7 +106,7 @@ export const prerender = false;
                     <NavItem href="#" text="Billing" icon="credit-card" />
                 </ul>
                 {
-                    (user?.role === 'admin' || user?.role === 'lead-guide') && (
+                    (user?.role === 'admin' || user?.role === 'guide') && (
                         <div class="admin-nav mt-14">
                             <ul class="side-nav">
                                 <NavItem href="/my-tours" text="Manage tours" icon="map" />
@@ -118,9 +151,10 @@ export const prerender = false;
                             </div>
                             <div class="flex items-center space-x-4">
                                 <img
+                                    id="photoPreview"
                                     src={`${getBackendUrl()}/img/users/${user?.photo}`}
                                     alt="User photo"
-                                    class="w-16 h-16 rounded-full"
+                                    class="w-16 h-16 rounded-full object-cover"
                                 />
                                 <input type="file" id="photo" name="photo" accept="image/*" class="hidden" />
                                 <label
@@ -189,6 +223,12 @@ export const prerender = false;
                                     type="submit"
                                     class="bg-primary text-white rounded-full px-8 py-3 text-sm font-semibold uppercase hover:bg-primary/80 transition"
                                     >Save password</button
+                                >
+                                <button
+                                    type="button"
+                                    id="deleteUserBtn"
+                                    class="ml-4 bg-red-500 text-white rounded-full px-8 py-3 text-sm font-semibold uppercase hover:bg-red-600 transition"
+                                    >Delete account</button
                                 >
                             </div>
                         </form>
