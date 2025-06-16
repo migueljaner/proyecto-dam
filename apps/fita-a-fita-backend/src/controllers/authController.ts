@@ -48,15 +48,14 @@ export const signup = catchAsync(
       passwordConfirm: req.body.passwordConfirm,
       passwordChangedAt: req.body.passwordChangedAt,
       role: req.body.role,
+      active: false,
     });
 
     const confirmToken = newUser.createEmailConfirmToken();
 
     await newUser.save({ validateBeforeSave: false });
 
-    console.log(newUser);
-
-    const url = `${req.protocol}://localhost:4321/api/v1/users/confirmEmail/${confirmToken}`;
+    const url = `${req.protocol}://localhost:3000/api/v1/users/confirmEmail/${confirmToken}`;
 
     await new Email(newUser, url).sendConfrimationEmail();
 
@@ -319,9 +318,9 @@ export const confirmEmail = catchAsync(
       .update(emailToken)
       .digest("hex");
 
-    const user = await User.findOne({
-      emailConfirmToken: hashedToken,
-    });
+    const user = await User.findOne({ emailConfirmToken: hashedToken });
+
+    console.log(user);
 
     if (user?.emailConfirmExpires && user.emailConfirmExpires < new Date()) {
       user.deleteOne();

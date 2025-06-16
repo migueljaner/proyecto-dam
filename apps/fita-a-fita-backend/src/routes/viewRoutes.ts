@@ -20,6 +20,13 @@ router.get(
   viewsController.getMyBookings,
 );
 
+router.get(
+  "/allusers",
+  authController.protect,
+  authController.restrictTo("admin", "guide"),
+  viewsController.getAllUsers,
+);
+
 router.get("/login", viewsController.getLoginForm);
 router.get("/signup", viewsController.getSignupForm);
 

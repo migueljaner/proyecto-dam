@@ -105,14 +105,13 @@ export const server = {
                 });
 
                 const data = await res.json();
-                console.log(data);
 
                 if (data.status === 'success') {
                     context.cookies.delete('jwt', { path: '/' });
                     context.session?.set('user', null);
                     return { success: true, data: data.data };
                 }
-                return { success: false, data };
+                return { success: false, data: data.message };
             } catch (error) {
                 return { success: false, data: error };
             }

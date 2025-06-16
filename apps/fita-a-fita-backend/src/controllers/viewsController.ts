@@ -4,6 +4,7 @@ import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/appError";
 import Booking from "../models/bookingModel";
 import Review from "../models/reviewModel";
+import User from "../models/userModel";
 
 export const getOverview = catchAsync(async (req: Request, res: Response) => {
   // 1) Get tour data from collection
@@ -102,3 +103,11 @@ export const getMyBookings = catchAsync(
     });
   },
 );
+
+export const getAllUsers = catchAsync(async (req: Request, res: Response) => {
+  const users = await User.find();
+
+  res.status(200).json({
+    users,
+  });
+});
