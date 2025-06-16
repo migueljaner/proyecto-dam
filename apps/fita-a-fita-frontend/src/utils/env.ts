@@ -6,9 +6,5 @@ export function isAstroServer() {
 }
 
 export function getBackendUrl() {
-    return isLocal()
-        ? 'http://localhost:3000'
-        : isAstroServer()
-          ? 'http://fita-a-fita-backend:3000'
-          : 'http://localhost:3000';
+    return isLocal() ? 'http://localhost:3000' : 'http://fita-a-fita-backend:3000';
 }

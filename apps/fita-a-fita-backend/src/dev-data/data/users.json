@@ -6,7 +6,7 @@
     "role": "admin",
     "active": true,
     "photo": "user-2.jpg",
-    "password": "$2a$12$Q0grHjH9PXc6SxivC8m12.2mZJ9BbKcgFpwSG4Y1ZEII8HJVzWeyS"
+    "password": "test1234"
   },
   {
     "_id": "5c8a1dfa2f8fb814b56fa181",
@@ -15,7 +15,7 @@
     "role": "guide",
     "active": true,
     "photo": "user-2.jpg",
-    "password": "$2a$12$hP1h2pnNp7wgyZNRwPsOTeZuNzWBv7vHmsR3DT/OaPSUBQT.y0S.."
+    "password": "test1234"
   },
   {
     "_id": "5c8a1e1a2f8fb814b56fa182",
@@ -24,7 +24,7 @@
     "role": "user",
     "active": true,
     "photo": "user-3.jpg",
-    "password": "$2a$12$9nFqToiTmjgfFVJiQvjmreLt4k8X4gGYCETGapSZOb2hHa55t0dDq"
+    "password": "test1234"
   },
   {
     "_id": "5c8a1f292f8fb814b56fa184",
@@ -33,7 +33,7 @@
     "role": "guide",
     "active": true,
     "photo": "user-5.jpg",
-    "password": "$2a$12$OOPr90tBEBF1Iho3ox0Jde0O/WXUR0VLA5xdh6tWcu7qb.qOCvSg2"
+    "password": "test1234"
   },
   {
     "_id": "5c8a1f4e2f8fb814b56fa185",
@@ -42,7 +42,7 @@
     "role": "guide",
     "active": true,
     "photo": "user-6.jpg",
-    "password": "$2a$12$XCXvvlhRBJ8CydKH09v1v.jpg0hB9gVVfMVEoz4MsxqL9zb5PrF42"
+    "password": "test1234"
   },
   {
     "_id": "5c8a21d02f8fb814b56fa189",
@@ -51,6 +51,6 @@
     "role": "user",
     "active": true,
     "photo": "user-10.jpg",
-    "password": "$2a$12$q7v9dm.S4DvqhAeBc4KwduedEDEkDe2GGFGzteW6xnHt120oRpkqm"
+    "password": "test1234"
   }
 ]
